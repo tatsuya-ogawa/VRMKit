@@ -12,7 +12,7 @@ import Metal
 import VRMKit
 import UIKit
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 open class VRMRealityKitSceneLoader {
     let vrm: VRM
     private let gltf: GLTF
@@ -1208,7 +1208,6 @@ open class VRMRealityKitSceneLoader {
         return skeleton
     }
 
-    @available(iOS 18.0, *)
     private func meshResource(positions: [SIMD3<Float>],
                               normals: [SIMD3<Float>],
                               tangents: [SIMD3<Float>],

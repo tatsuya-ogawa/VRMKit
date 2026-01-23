@@ -9,7 +9,7 @@
 import VRMKit
 import UIKit
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 extension UIImage {
     convenience init(image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRMRealityKitSceneLoader) throws {
         let data: Data

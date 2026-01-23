@@ -8,7 +8,7 @@
 #if canImport(RealityKit)
 import RealityKit
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 public final class VRMRealityKitScene {
     public let rootEntity: Entity
     public let vrmEntity: VRMRealityKitEntity

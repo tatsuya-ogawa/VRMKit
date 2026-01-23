@@ -10,7 +10,7 @@ import RealityKit
 import VRMKit
 import Foundation
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 final class VRMRealityKitSpringBone {
     struct SphereCollider {
         let position: SIMD3<Float>
@@ -134,7 +134,7 @@ final class VRMRealityKitSpringBone {
     }
 }
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 extension VRMRealityKitSpringBone {
     final class VRMRealityKitSpringBoneLogic {
         let node: Entity

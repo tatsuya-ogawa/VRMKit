@@ -9,7 +9,7 @@
 import RealityKit
 import VRMKit
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 final class VRMRealityKitSpringBoneColliderGroup {
     let node: Entity
     let colliders: [SphereCollider]

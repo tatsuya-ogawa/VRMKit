@@ -11,7 +11,7 @@ import Foundation
 import RealityKit
 import VRMKit
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 struct BlendShapeNormalTangentComponent: Component {
     let baseNormals: [SIMD3<Float>]
     let baseTangents: [SIMD3<Float>]
@@ -19,7 +19,7 @@ struct BlendShapeNormalTangentComponent: Component {
     let tangentOffsets: [[SIMD3<Float>]]
 }
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 public final class VRMRealityKitEntity {
     public let vrm: VRM
     public let entity: Entity
@@ -236,14 +236,12 @@ public final class VRMRealityKitEntity {
         }
     }
 
-    @available(iOS 18.0, *)
     private func updateBlendShapeNormalsAndTangents(on mesh: Entity) {
         for modelEntity in modelEntities(in: mesh) {
             applyNormalTangentMorphs(on: modelEntity)
         }
     }
 
-    @available(iOS 18.0, *)
     private func applyNormalTangentMorphs(on modelEntity: ModelEntity) {
         guard let component = modelEntity.components[BlendShapeNormalTangentComponent.self] else { return }
         let hasNormalOffsets = !component.normalOffsets.isEmpty
@@ -267,7 +265,6 @@ public final class VRMRealityKitEntity {
         updateMeshBuffers(mesh: model.mesh, normals: normals, tangents: tangents)
     }
 
-    @available(iOS 18.0, *)
     private func blendShapeWeights(for modelEntity: ModelEntity, targetCount: Int) -> [Float] {
         guard let firstSet = modelEntity.blendWeights.first else {
             return Array(repeating: 0, count: targetCount)
@@ -290,14 +287,12 @@ public final class VRMRealityKitEntity {
         return result
     }
 
-    @available(iOS 18.0, *)
     private func parseBlendShapeIndex(from name: String) -> Int? {
         let prefix = "blendShape_"
         guard name.hasPrefix(prefix) else { return nil }
         return Int(name.dropFirst(prefix.count))
     }
 
-    @available(iOS 18.0, *)
     private func applyOffsets(base: [SIMD3<Float>],
                               offsets: [[SIMD3<Float>]],
                               weights: [Float]) -> [SIMD3<Float>]? {
@@ -317,7 +312,6 @@ public final class VRMRealityKitEntity {
         return result
     }
 
-    @available(iOS 18.0, *)
     private func updateMeshBuffers(mesh: MeshResource,
                                    normals: [SIMD3<Float>]?,
                                    tangents: [SIMD3<Float>]?) {
@@ -362,7 +356,6 @@ public final class VRMRealityKitEntity {
         return 0
     }
 
-    @available(iOS 18.0, *)
     private func ensureBlendShapeComponent(on modelEntity: ModelEntity) {
         if modelEntity.components[BlendShapeWeightsComponent.self] != nil {
             return

@@ -14,7 +14,7 @@ import UIKit
 import QuartzCore
 #endif
 
-@available(iOS 18.0, *)
+@available(iOS 18.0, visionOS 2.0, *)
 final class RealityKitSceneData {
     var scene: VRMRealityKitScene?
     var scenes: [VRMRealityKitScene?]
