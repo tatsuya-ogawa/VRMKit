@@ -18,10 +18,10 @@ extension UIImage {
         } else if let bufferViewIndex = image.bufferView {
             data = try loader.bufferView(withBufferViewIndex: bufferViewIndex).bufferView
         } else {
-            throw NSError(domain: "VRMRealityKit.UIImage+GLTF", code: 1, userInfo: [NSLocalizedDescriptionKey: "failed to load images"])
+            throw VRMError._dataInconsistent("failed to create UIImage from data")
         }
         guard let uiImage = UIImage(data: data), let cgImage = uiImage.cgImage else {
-            throw NSError(domain: "VRMRealityKit.UIImage+GLTF", code: 2, userInfo: [NSLocalizedDescriptionKey: "failed to load image"])
+            throw VRMError._dataInconsistent("failed to create UIImage from data")
         }
         self.init(cgImage: cgImage)
     }
