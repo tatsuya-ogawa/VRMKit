@@ -18,7 +18,7 @@ extension UIImage {
         } else if let bufferViewIndex = image.bufferView {
             data = try loader.bufferView(withBufferViewIndex: bufferViewIndex).bufferView
         } else {
-            throw VRMError._dataInconsistent("failed to create UIImage from data")
+            throw VRMError._dataInconsistent("failed to load image: both uri and bufferView are nil")
         }
         guard let uiImage = UIImage(data: data), let cgImage = uiImage.cgImage else {
             throw VRMError._dataInconsistent("failed to create UIImage from data")
