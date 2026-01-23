@@ -1,11 +1,3 @@
-//
-//  BlendShape.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 2019/02/10.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import SceneKit
 
 struct BlendShapeClip {

@@ -72,8 +72,8 @@ final class ImmersiveViewModel {
             scene.rootEntity.transform.translation = SIMD3<Float>(0, 0, -1.5)
             scene.rootEntity.transform.rotation = simd_quatf(angle: .pi, axis: SIMD3<Float>(0, 1, 0))
             rootEntity.addChild(scene.rootEntity)
-            
-            // ポーズ調整
+
+            // Adjust pose
             let vrmEntity = scene.vrmEntity
             let neck = vrmEntity.humanoid.node(for: .neck)
             let leftShoulder = vrmEntity.humanoid.node(for: .leftShoulder) ?? vrmEntity.humanoid.node(for: .leftUpperArm)
@@ -109,7 +109,7 @@ final class ImmersiveViewModel {
         
         time += deltaTime
         
-        // 左右に揺れるアニメーション
+        // An animation that sways left and right
         let cycle = time.truncatingRemainder(dividingBy: 1.0)
         let angle: Float
         if cycle < 0.5 {

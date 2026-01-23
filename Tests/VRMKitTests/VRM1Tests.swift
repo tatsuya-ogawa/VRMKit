@@ -1,11 +1,3 @@
-//
-//  VRM1Tests.swift
-//  VRMKitTests
-//
-//  Created by Tatsuya Tanaka on 20180908.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 import XCTest
 import VRMKit
 

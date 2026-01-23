@@ -1,10 +1,3 @@
-//
-//  GLTF+.swift
-//  VRMRealityKit
-//
-//  Created by Tatsuya Ogawa on 2026/01/22.
-//
-
 import VRMKit
 
 protocol GLTFTextureInfoProtocol {

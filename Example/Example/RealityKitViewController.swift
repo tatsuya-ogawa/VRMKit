@@ -1,10 +1,3 @@
-//
-//  RealityKitViewController.swift
-//  VRMExample
-//
-//  Created by Tatsuya Tanaka on 2025/01/20.
-//
-
 import Combine
 import UIKit
 import RealityKit

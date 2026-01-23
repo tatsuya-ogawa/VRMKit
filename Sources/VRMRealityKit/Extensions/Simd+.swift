@@ -1,10 +1,3 @@
-//
-//  Simd+.swift
-//  VRMRealityKit
-//
-//  Created by Tatsuya Ogawa on 2026/01/22.
-//
-
 import simd
 
 extension SIMD3 where Scalar == Float {

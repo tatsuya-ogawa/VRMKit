@@ -1,11 +1,3 @@
-//
-//  simd+.swift
-//  VRMSceneKit
-//
-//  Created by Tomoya Hirano on 2020/02/16.
-//  Copyright © 2020 tattn. All rights reserved.
-//
-
 import simd
 import SceneKit
 

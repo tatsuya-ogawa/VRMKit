@@ -1,11 +1,3 @@
-//
-//  SCNNode+UnityTransform.swift
-//  VRMSceneKit
-//
-//  Created by Tomoya Hirano on 2019/12/28.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import SceneKit
 
 public protocol UnityTransformCompatible {

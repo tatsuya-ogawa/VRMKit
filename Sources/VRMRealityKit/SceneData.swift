@@ -1,11 +1,3 @@
-//
-//  SceneData.swift
-//  VRMRealityKit
-//
-//  Created by Tatsuya Ogawa on 2026/01/22.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 #if canImport(RealityKit)
 import RealityKit
 import VRMKit

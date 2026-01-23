@@ -1,10 +1,3 @@
-//
-//  Collection+.swift
-//  VRMRealityKit
-//
-//  Created by Tatsuya Ogawa on 2026/01/22.
-//
-
 import Foundation
 
 extension Collection {

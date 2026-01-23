@@ -1,10 +1,3 @@
-//
-//  GLTF2RealityKit.swift
-//  VRMRealityKit
-//
-//  Created by Tatsuya Ogawa on 2026/01/22.
-//
-
 #if canImport(RealityKit)
 import RealityKit
 import VRMKit

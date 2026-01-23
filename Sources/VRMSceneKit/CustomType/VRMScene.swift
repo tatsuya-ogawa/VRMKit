@@ -1,11 +1,3 @@
-//
-//  VRMScene.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 2019/02/11.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import SceneKit
 
 open class VRMScene: SCNScene {

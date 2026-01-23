@@ -1,11 +1,3 @@
-//
-//  VRMSpringBone.swift
-//  SpringBoneKit
-//
-//  Created by Tomoya Hirano on 2019/12/20.
-//  Copyright © 2019 Tomoya Hirano. All rights reserved.
-//
-
 import SceneKit
 import GameKit
 import VRMKit

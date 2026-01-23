@@ -1,11 +1,3 @@
-//
-//  SCNMorpher+GLTF.swift
-//  VRMKit
-//
-//  Created by Tatsuya Tanaka on 2019/02/09.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import VRMKit
 import SceneKit
 

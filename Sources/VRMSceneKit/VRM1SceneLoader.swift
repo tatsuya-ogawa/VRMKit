@@ -1,10 +1,3 @@
-//
-//  VRM1SceneLoader.swift
-//  VRMKit
-//
-//  Created by GH on 6/13/25.
-//
-
 import Foundation
 import VRMKit
 import SceneKit

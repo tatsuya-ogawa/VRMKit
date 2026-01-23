@@ -1,10 +1,3 @@
-//
-//  Humanoid.swift
-//  VRMRealityKit
-//
-//  Created by Tatsuya Ogawa on 2026/01/22.
-//
-
 #if canImport(RealityKit)
 import VRMKit
 import RealityKit
