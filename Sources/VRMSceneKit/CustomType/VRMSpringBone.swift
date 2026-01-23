@@ -95,7 +95,7 @@ final class VRMSpringBone {
     
     private func setLocalRotationsIdentity() {
         for verlet in self.verlet {
-            verlet.head.utx.localRotation = quart_identity_float
+            verlet.head.utx.localRotation = quat_identity_float
         }
     }
     
@@ -160,7 +160,7 @@ extension VRMSpringBone {
         private let localRotation: simd_quatf
         private let boneAxis: SIMD3<Float>
         private var parentRotation: simd_quatf {
-            self.node.parent?.utx.rotation ?? quart_identity_float
+            self.node.parent?.utx.rotation ?? quat_identity_float
         }
         var radius: Float = 0.5
         

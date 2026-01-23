@@ -145,7 +145,7 @@ extension VRMRealityKitSpringBone {
         private let localRotation: simd_quatf
         private let boneAxis: SIMD3<Float>
         private var parentRotation: simd_quatf {
-            node.parent?.utx.rotation ?? quart_identity_float
+            node.parent?.utx.rotation ?? quat_identity_float
         }
         var radius: Float = 0.5
 

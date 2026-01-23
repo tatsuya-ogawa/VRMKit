@@ -45,7 +45,7 @@ extension simd_quatf {
     }
 }
 
-let quart_identity_float = simd_quatf(matrix_identity_float4x4)
+let quat_identity_float = simd_quatf(matrix_identity_float4x4)
 
 func cross(_ left: SIMD3<Float>, _ right: SIMD3<Float>) -> SIMD3<Float> {
     simd_cross(left, right)
