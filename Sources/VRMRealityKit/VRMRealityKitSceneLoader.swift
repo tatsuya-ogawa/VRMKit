@@ -269,7 +269,7 @@ open class VRMRealityKitSceneLoader {
         indexData = triangulatedIndices(for: primitive.mode, indices: indexData)
         guard !indexData.isEmpty else { return nil }
 
-        let compacted = compactVerticesDisabled(positions: positions,
+        let prepared = prepareVertexData(positions: positions,
                                                 normals: normals,
                                                 tangents: tangents,
                                                 texcoords: texcoords,
@@ -280,16 +280,16 @@ open class VRMRealityKitSceneLoader {
                                                 tangentOffsets: tangentOffsets,
                                                 indexData: indexData)
 
-        let finalPositions = compacted.positions
-        let finalNormals = compacted.normals
-        let finalTangents = compacted.tangents
-        let finalTexcoords = compacted.texcoords
-        let finalJoints = compacted.joints
-        let finalWeights = compacted.weights
-        let finalTargetOffsets = compacted.targetOffsets
-        let finalNormalOffsets = compacted.normalOffsets
-        let finalTangentOffsets = compacted.tangentOffsets
-        let finalIndexData = compacted.indexData
+        let finalPositions = prepared.positions
+        let finalNormals = prepared.normals
+        let finalTangents = prepared.tangents
+        let finalTexcoords = prepared.texcoords
+        let finalJoints = prepared.joints
+        let finalWeights = prepared.weights
+        let finalTargetOffsets = prepared.targetOffsets
+        let finalNormalOffsets = prepared.normalOffsets
+        let finalTangentOffsets = prepared.tangentOffsets
+        let finalIndexData = prepared.indexData
 
         let material: Material = {
             if let materialIndex = primitive.material {
@@ -1319,7 +1319,7 @@ open class VRMRealityKitSceneLoader {
         return material
     }
 
-    private struct CompactedMeshBuffers {
+    private struct PreparedMeshBuffers {
         let positions: [SIMD3<Float>]
         let normals: [SIMD3<Float>]
         let tangents: [SIMD3<Float>]
@@ -1332,7 +1332,7 @@ open class VRMRealityKitSceneLoader {
         let indexData: [UInt32]
     }
 
-    private func compactVerticesDisabled(positions: [SIMD3<Float>],
+    private func prepareVertexData(positions: [SIMD3<Float>],
                                          normals: [SIMD3<Float>]?,
                                          tangents: [SIMD3<Float>]?,
                                          texcoords: [SIMD2<Float>]?,
@@ -1341,14 +1341,14 @@ open class VRMRealityKitSceneLoader {
                                          targetOffsets: [[SIMD3<Float>]],
                                          normalOffsets: [[SIMD3<Float>]],
                                          tangentOffsets: [[SIMD3<Float>]],
-                                         indexData: [UInt32]) -> CompactedMeshBuffers {
+                                         indexData: [UInt32]) -> PreparedMeshBuffers {
         let finalNormals: [SIMD3<Float>]
         if let normals {
             finalNormals = normals
         } else {
             finalNormals = estimateNormals(positions: positions, indices: indexData)
         }
-        return CompactedMeshBuffers(positions: positions,
+        return PreparedMeshBuffers(positions: positions,
                                     normals: finalNormals,
                                     tangents: tangents ?? [],
                                     texcoords: texcoords ?? [],
@@ -1358,86 +1358,6 @@ open class VRMRealityKitSceneLoader {
                                     normalOffsets: normalOffsets,
                                     tangentOffsets: tangentOffsets,
                                     indexData: indexData)
-    }
-
-    private func compactVertices(positions: [SIMD3<Float>],
-                                 normals: [SIMD3<Float>]?,
-                                 tangents: [SIMD3<Float>]?,
-                                 texcoords: [SIMD2<Float>]?,
-                                 joints: [SIMD4<UInt32>]?,
-                                 weights: [SIMD4<Float>]?,
-                                 targetOffsets: [[SIMD3<Float>]],
-                                 normalOffsets: [[SIMD3<Float>]],
-                                 tangentOffsets: [[SIMD3<Float>]],
-                                 indexData: [UInt32]) -> CompactedMeshBuffers {
-        var newPositions: [SIMD3<Float>] = []
-        var newNormals: [SIMD3<Float>] = []
-        var newTangents: [SIMD3<Float>] = []
-        var newTexcoords: [SIMD2<Float>] = []
-        var newJoints: [SIMD4<UInt32>] = []
-        var newWeights: [SIMD4<Float>] = []
-        var newTargetOffsets: [[SIMD3<Float>]] = targetOffsets.map { _ in [] }
-        var newNormalOffsets: [[SIMD3<Float>]] = normalOffsets.map { _ in [] }
-        var newTangentOffsets: [[SIMD3<Float>]] = tangentOffsets.map { _ in [] }
-        var newIndexData: [UInt32] = []
-
-        var oldToNewIndex: [UInt32: UInt32] = [:]
-
-        for oldIndex in indexData {
-            if let newIndex = oldToNewIndex[oldIndex] {
-                newIndexData.append(newIndex)
-            } else {
-                let newIndex = UInt32(newPositions.count)
-                oldToNewIndex[oldIndex] = newIndex
-                newIndexData.append(newIndex)
-
-                let intOldIndex = Int(oldIndex)
-                newPositions.append(positions[intOldIndex])
-                if let normals = normals {
-                    newNormals.append(normals[intOldIndex])
-                }
-                if let tangents = tangents {
-                    newTangents.append(tangents[intOldIndex])
-                }
-                if let texcoords = texcoords {
-                    newTexcoords.append(texcoords[intOldIndex])
-                }
-                if let joints = joints, let weights = weights {
-                    newJoints.append(joints[intOldIndex])
-                    newWeights.append(weights[intOldIndex])
-                }
-                if !newTargetOffsets.isEmpty {
-                    for targetIndex in 0..<newTargetOffsets.count {
-                        newTargetOffsets[targetIndex].append(targetOffsets[targetIndex][intOldIndex])
-                    }
-                }
-                if !newNormalOffsets.isEmpty {
-                    for targetIndex in 0..<newNormalOffsets.count {
-                        newNormalOffsets[targetIndex].append(normalOffsets[targetIndex][intOldIndex])
-                    }
-                }
-                if !newTangentOffsets.isEmpty {
-                    for targetIndex in 0..<newTangentOffsets.count {
-                        newTangentOffsets[targetIndex].append(tangentOffsets[targetIndex][intOldIndex])
-                    }
-                }
-            }
-        }
-
-        if normals == nil {
-            newNormals = estimateNormals(positions: newPositions, indices: newIndexData)
-        }
-
-        return CompactedMeshBuffers(positions: newPositions,
-                                    normals: newNormals,
-                                    tangents: newTangents,
-                                    texcoords: newTexcoords,
-                                    joints: newJoints,
-                                    weights: newWeights,
-                                    targetOffsets: newTargetOffsets,
-                                    normalOffsets: newNormalOffsets,
-                                    tangentOffsets: newTangentOffsets,
-                                    indexData: newIndexData)
     }
 }
 
