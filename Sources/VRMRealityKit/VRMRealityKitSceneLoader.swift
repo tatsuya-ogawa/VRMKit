@@ -23,6 +23,7 @@ open class VRMRealityKitSceneLoader {
     private var textureCacheBySemantic: [TextureResource.Semantic: [Int: TextureResource]] = [:]
     private var metallicRoughnessCache: [Int: (metal: TextureResource, rough: TextureResource)] = [:]
     private var samplerCache: [Int: MaterialParameters.Texture.Sampler] = [:]
+    private var enableNormalTangentBlendShape = false // NOTE: Setting this to true currently has no effect
 
     public init(vrm: VRM, rootDirectory: URL? = nil) {
         self.vrm = vrm
@@ -179,7 +180,6 @@ open class VRMRealityKitSceneLoader {
         }
 
         let positions = try vector3s(positionIndex)
-        let enableNormalTangentBlendShape = false
 
         var normals: [SIMD3<Float>]?
         if let normalIndex = attributes[.NORMAL] {
