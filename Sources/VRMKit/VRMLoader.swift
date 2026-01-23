@@ -7,7 +7,9 @@
 //
 
 import Foundation
+#if canImport(SceneKit)
 import SceneKit
+#endif
 
 open class VRMLoader {
     public init() {}

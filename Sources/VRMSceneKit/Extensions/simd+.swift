@@ -43,4 +43,4 @@ extension simd_quatf {
         simd_act(left, right)
     }
 }
-var quart_identity_float = simd_quatf(matrix_identity_float4x4)
+var quat_identity_float = simd_quatf(matrix_identity_float4x4)

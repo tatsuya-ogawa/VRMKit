@@ -1,17 +1,22 @@
-// swift-tools-version:5.7
+// swift-tools-version:5.9
 import PackageDescription
 
 let package = Package(
     name: "VRMKit",
-    platforms: [.iOS(.v15), .watchOS(.v8)],
+    platforms: [.iOS(.v15), .watchOS(.v8), .visionOS(.v1)],
     products: [
         .library(name: "VRMKit", targets: ["VRMKit"]),
-        .library(name: "VRMSceneKit", targets: ["VRMSceneKit"])
+        .library(name: "VRMSceneKit", targets: ["VRMSceneKit"]),
+        .library(name: "VRMRealityKit", targets: ["VRMRealityKit"])
     ],
     targets: [
         .target(name: "VRMKit"),
         .target(
             name: "VRMSceneKit",
+            dependencies: ["VRMKit"]
+        ),
+        .target(
+            name: "VRMRealityKit",
             dependencies: ["VRMKit"]
         ),
 
