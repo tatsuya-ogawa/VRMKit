@@ -4,6 +4,7 @@ import UIKit
 
 @available(iOS 18.0, visionOS 2.0, *)
 extension UIImage {
+    @MainActor
     convenience init(image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRMEntityLoader) throws {
         let data: Data
         if let uri = image.uri {

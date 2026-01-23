@@ -13,6 +13,7 @@ struct BlendShapeNormalTangentComponent: Component {
 }
 
 @available(iOS 18.0, visionOS 2.0, *)
+@MainActor
 public final class VRMEntity {
     public let vrm: VRM
     public let entity: Entity
@@ -63,7 +64,7 @@ public final class VRMEntity {
         var springBones: [VRMEntitySpringBone] = []
         let secondaryAnimation = vrm.secondaryAnimation
         for boneGroup in secondaryAnimation.boneGroups {
-            guard !boneGroup.bones.isEmpty else { return }
+            guard !boneGroup.bones.isEmpty else { continue }
             let rootBones: [Entity] = try boneGroup.bones.compactMap { try loader.node(withNodeIndex: $0) }
             let centerNode = try? loader.node(withNodeIndex: boneGroup.center)
             let colliderGroups = try secondaryAnimation.colliderGroups.map {

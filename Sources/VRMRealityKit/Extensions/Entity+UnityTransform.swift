@@ -22,6 +22,8 @@ public extension UnityTransformCompatible {
 
 extension Entity: UnityTransformCompatible {}
 
+@MainActor
+
 extension UnityTransform where Base == Entity {
     func transformPoint(_ position: SIMD3<Float>) -> SIMD3<Float> {
         let world = base.transformMatrix(relativeTo: nil)

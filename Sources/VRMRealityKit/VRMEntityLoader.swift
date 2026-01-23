@@ -6,6 +6,7 @@ import VRMKit
 import UIKit
 
 @available(iOS 18.0, visionOS 2.0, *)
+@MainActor
 open class VRMEntityLoader {
     let vrm: VRM
     private let gltf: GLTF
@@ -516,7 +517,7 @@ open class VRMEntityLoader {
         let gltfTexture = try gltf.load(\.textures, keyName: "textures")[index]
         let image = try image(withImageIndex: gltfTexture.source)
         guard let cgImage = image.cgImage else { throw VRMError._dataInconsistent("failed to load cgImage") }
-        let texture = try TextureResource.generate(from: cgImage, options: .init(semantic: semantic))
+        let texture = try TextureResource(image: cgImage, options: .init(semantic: semantic))
         if semantic == .color {
             entityData.textures[index] = texture
         } else {
@@ -690,8 +691,8 @@ open class VRMEntityLoader {
                                                   height: image.height,
                                                   dataPointer: roughPtr)
 
-        let metalTexture = try TextureResource.generate(from: metalImage, options: .init(semantic: .color))
-        let roughTexture = try TextureResource.generate(from: roughImage, options: .init(semantic: .color))
+        let metalTexture = try TextureResource(image: metalImage, options: .init(semantic: .color))
+        let roughTexture = try TextureResource(image: roughImage, options: .init(semantic: .color))
         return (metalTexture, roughTexture)
     }
 
