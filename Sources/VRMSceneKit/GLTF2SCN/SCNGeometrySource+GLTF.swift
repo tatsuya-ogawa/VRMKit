@@ -1,6 +1,7 @@
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension SCNGeometrySource {
     convenience init(accessor: GLTF.Accessor, semantic: SCNGeometrySource.Semantic, loader: VRMSceneLoader) throws {
         let (componentsPerVector, bytesPerComponent, vectorSize) = accessor.components()

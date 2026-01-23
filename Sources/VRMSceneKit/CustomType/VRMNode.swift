@@ -94,6 +94,7 @@ open class VRMNode: SCNNode {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension VRMNode: RenderUpdatable {
     public func update(at time: TimeInterval) {
         let seconds = timer.deltaTime(updateAtTime: time)

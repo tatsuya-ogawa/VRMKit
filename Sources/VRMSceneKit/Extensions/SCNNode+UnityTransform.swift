@@ -14,6 +14,7 @@ public final class UnityTransform<Base> {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 public extension UnityTransformCompatible {
     var utx: UnityTransform<Self> {
         return UnityTransform(self)
@@ -22,6 +23,7 @@ public extension UnityTransformCompatible {
 
 extension SCNNode: UnityTransformCompatible {}
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension UnityTransform where Base == SCNNode {
     func transformPoint(_ position: SIMD3<Float>) -> SIMD3<Float> {
         base.simdConvertPosition(position, to: nil)

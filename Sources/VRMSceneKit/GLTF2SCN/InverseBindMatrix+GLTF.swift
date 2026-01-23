@@ -3,6 +3,7 @@ import SceneKit
 
 typealias InverseBindMatrix = NSValue
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension Array where Element == InverseBindMatrix {
     init(accessor: GLTF.Accessor, loader: VRMSceneLoader) throws {
         let (componentsPerVector, bytesPerComponent, vectorSize) = accessor.components()

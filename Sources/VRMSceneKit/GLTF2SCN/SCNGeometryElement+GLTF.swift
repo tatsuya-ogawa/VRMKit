@@ -1,6 +1,7 @@
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension SCNGeometryElement {
     convenience init(accessor: GLTF.Accessor, mode: GLTF.Mesh.Primitive.Mode, loader: VRMSceneLoader) throws {
         let primitiveType = try primitiveTypeOf(mode) ??? ._notSupported("\(mode) is not supported")

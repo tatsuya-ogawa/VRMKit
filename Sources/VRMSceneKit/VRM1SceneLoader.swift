@@ -97,6 +97,7 @@ open class VRM1SceneLoader {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension VRM1SceneLoader {
     public convenience init(withURL url: URL, rootDirectory: URL? = nil) throws {
         let vrm1 = try VRMLoader().load(VRM1.self, withURL: url)

@@ -1,6 +1,7 @@
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension SCNCamera {
     convenience init(camera: GLTF.Camera) throws {
         self.init()

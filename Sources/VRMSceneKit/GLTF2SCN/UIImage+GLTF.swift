@@ -1,6 +1,7 @@
 import VRMKit
 import UIKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension UIImage {
     convenience init(image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRMSceneLoader) throws {
         let data: Data

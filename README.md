@@ -23,14 +23,14 @@ For "VRM", please refer to [this page](https://dwango.github.io/en/vrm/).
 ## Features
 
 - [x] Load VRM file
-- [x] Render VRM models on SceneKit (experimental)
+- [x] Render VRM models on RealityKit (experimental)
 - [x] Face morphing (blend shape)
 - [x] Bone animation (skin / joint)
 - [x] Physics (spring bone)
 
 # Requirements
 
-- Swift 5.7+
+- Swift 5.9+
 - iOS 15.0+
 - watchOS 8.0+ (Experimental)
 

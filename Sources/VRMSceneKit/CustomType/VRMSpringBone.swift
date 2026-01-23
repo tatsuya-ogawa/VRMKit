@@ -144,6 +144,7 @@ final class VRMSpringBone {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension VRMSpringBone {
     @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     class VRMSpringBoneLogic {

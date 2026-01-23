@@ -1,6 +1,7 @@
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension SCNMorpher {
     convenience init(primitiveTargets: [[GLTF.Mesh.Primitive.AttributeKey: Int]], loader: VRMSceneLoader) throws {
         self.init()
