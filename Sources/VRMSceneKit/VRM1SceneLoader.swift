@@ -3,6 +3,7 @@ import VRMKit
 import SceneKit
 import UIKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 open class VRM1SceneLoader {
     let vrm1: VRM1
     private let gltf: GLTF

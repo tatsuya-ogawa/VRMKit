@@ -2,7 +2,9 @@ import SceneKit
 import GameKit
 import VRMKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 final class VRMSpringBone {
+    @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     struct SphereCollider {
         let position: SIMD3<Float>
         let radius: Float
@@ -143,6 +145,7 @@ final class VRMSpringBone {
 }
 
 extension VRMSpringBone {
+    @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     class VRMSpringBoneLogic {
         let node: SCNNode
         public var head: SCNNode { self.node }

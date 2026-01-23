@@ -66,6 +66,46 @@ vrm.gltf.jsonData.nodes[0].name
 ## Render VRM
 
 ```swift
+import RealityKit
+import VRMKit
+import VRMRealityKit
+
+let loader = try VRMRealityKitSceneLoader(named: "model.vrm")
+let scene = try loader.loadScene()
+
+let arView = ARView(frame: .zero, cameraMode: .nonAR, automaticallyConfigureSession: false)
+let anchor = AnchorEntity(world: .zero)
+anchor.addChild(scene.rootEntity)
+arView.scene.addAnchor(anchor)
+```
+
+### Render VRM (SwiftUI)
+
+```swift
+import RealityKit
+import RealityKitContent
+import VRMKit
+import VRMRealityKit
+
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        RealityView { content in
+            let loader = try VRMRealityKitSceneLoader(named: "model.vrm")
+            let scene = try loader.loadScene()
+            content.add(scene.rootEntity)
+        }
+    }
+}
+```
+
+<details>
+<summary>Render VRM (SceneKit) — Deprecated</summary>
+
+> Note: VRMSceneKit is deprecated. Use VRMRealityKit instead.
+
+```swift
 import VRMKit
 import VRMSceneKit
 
@@ -78,24 +118,26 @@ let node: VRMNode = scene.vrmNode
 sceneView.scene = scene
 ```
 
+</details>
+
 ### Blend shapes
 
 <img src="https://github.com/tattn/VRMKit/raw/main/.github/alicia_joy.png" width="100px" alt="joy" />
 
 ```swift
-node.setBlendShape(value: 1.0, for: .preset(.joy))
+entity.setBlendShape(value: 1.0, for: .preset(.joy))
 ```
 
 <img src="https://github.com/tattn/VRMKit/raw/main/.github/alicia_angry.png" width="100px" alt="angry" />
 
 ```swift
-node.setBlendShape(value: 1.0, for: .preset(.angry))
+entity.setBlendShape(value: 1.0, for: .preset(.angry))
 ```
 
 <img src="https://github.com/tattn/VRMKit/raw/main/.github/alicia_><.png" width="100px" alt="><" />
 
 ```swift
-node.setBlendShape(value: 1.0, for: .custom("><"))
+entity.setBlendShape(value: 1.0, for: .custom("><"))
 ```
 
 ### Bone animation
@@ -103,23 +145,24 @@ node.setBlendShape(value: 1.0, for: .custom("><"))
 <img src="https://github.com/tattn/VRMKit/raw/main/.github/alicia_humanoid.png" width="200px" alt="Humanoid" />
 
 ```swift
-node.setBlendShape(value: 1.0, for: .preset(.fun))
-node.humanoid.node(for: .neck)?.eulerAngles = SCNVector3(0, 0, 20 * CGFloat.pi / 180)
-node.humanoid.node(for: .leftShoulder)?.eulerAngles = SCNVector3(0, 0, 40 * CGFloat.pi / 180)
-node.humanoid.node(for: .rightShoulder)?.eulerAngles = SCNVector3(0, 0, 40 * CGFloat.pi / 180)
+entity.setBlendShape(value: 1.0, for: .preset(.fun))
+entity.humanoid.node(for: .neck)?.eulerAngles = SCNVector3(0, 0, 20 * CGFloat.pi / 180)
+entity.humanoid.node(for: .leftShoulder)?.eulerAngles = SCNVector3(0, 0, 40 * CGFloat.pi / 180)
+entity.humanoid.node(for: .rightShoulder)?.eulerAngles = SCNVector3(0, 0, 40 * CGFloat.pi / 180)
 ```
 
 ### Read the thumbnail image
 
 ```swift
-let loader = try VRMSceneLoader(named: "model.vrm")
+let loader = try VRMRealityKitSceneLoader(named: "model.vrm")
 let image = try loader.loadThumbnail()
 ```
 
 # ToDo
+
 - [ ] VRM 1.0 support
   - [x] Decoding VRM 1.0 file
-  - [ ] Render an avatar by SceneKit
+  - [ ] Render an avatar by RealityKit
 - [ ] VRM shaders support
 - [ ] Improve rendering quality
 - [ ] Animation support
@@ -145,8 +188,8 @@ Donating to help me continue working on this project.
 VRMKit is released under the MIT license. See LICENSE for details.
 
 # Author
+
 Tatsuya Tanaka
 
-<a href="https://twitter.com/tanakasan2525" target="_blank"><img alt="Twitter" src="https://img.shields.io/twitter/follow/tanakasan2525.svg?style=social&label=Follow"></a>
+<a href="https://twitter.com/tattn_dev" target="_blank"><img alt="Twitter" src="https://img.shields.io/twitter/follow/tattn_dev.svg?style=social&label=Follow"></a>
 <a href="https://github.com/tattn" target="_blank"><img alt="GitHub" src="https://img.shields.io/github/followers/tattn.svg?style=social"></a>
-

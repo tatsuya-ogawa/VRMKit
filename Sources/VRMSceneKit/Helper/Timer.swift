@@ -1,5 +1,6 @@
 import Foundation
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 final class Timer {
     private var lastUpdateTime = TimeInterval()
     

@@ -6,6 +6,7 @@ public protocol UnityTransformCompatible {
     var utx: CompatibleType { get }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 public final class UnityTransform<Base> {
     private let base: Base
     public init(_ base: Base) {

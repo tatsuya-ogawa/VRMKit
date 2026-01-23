@@ -2,6 +2,7 @@ import VRMKit
 import SceneKit
 import UIKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 final class SceneData {
     var scene: VRMScene?
     var scenes: [VRMScene?]

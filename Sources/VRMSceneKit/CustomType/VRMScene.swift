@@ -1,5 +1,6 @@
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 open class VRMScene: SCNScene {
     public let vrmNode: VRMNode
 

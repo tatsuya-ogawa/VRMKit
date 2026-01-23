@@ -1,6 +1,7 @@
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 final class VRMSpringBoneColliderGroup {
     let node: SCNNode
     let colliders: [SphereCollider]
@@ -10,6 +11,7 @@ final class VRMSpringBoneColliderGroup {
         self.colliders = colliderGroup.colliders.map(SphereCollider.init)
     }
     
+    @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     final class SphereCollider {
         let offset: SIMD3<Float>
         let radius: Float

@@ -1,6 +1,7 @@
 import SceneKit
 import VRMKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 open class VRMNode: SCNNode {
     public let vrm: VRM
     public let humanoid = Humanoid()
