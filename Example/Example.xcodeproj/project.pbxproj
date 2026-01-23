@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,8 @@
 		245725DF2146F47B003AA5D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 245725DD2146F47B003AA5D7 /* Main.storyboard */; };
 		245725E12146F47D003AA5D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 245725E02146F47D003AA5D7 /* Assets.xcassets */; };
 		245725E42146F47D003AA5D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 245725E22146F47D003AA5D7 /* LaunchScreen.storyboard */; };
+		A1B2C3D4E5F60718293A4B5E /* RealityKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5D /* RealityKitViewController.swift */; };
+		A1B2C3D4E5F60718293A4B60 /* VRMRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D4E5F60718293A4B5F /* VRMRealityKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +78,7 @@
 		245725E02146F47D003AA5D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		245725E32146F47D003AA5D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		245725E52146F47D003AA5D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1B2C3D4E5F60718293A4B5D /* RealityKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1B2C3D4E5F60718293A4B60 /* VRMRealityKit in Frameworks */,
 				067C5C522AAD6D8B00F8FBB3 /* VRMSceneKit in Frameworks */,
 				067C5C502AAD6D8B00F8FBB3 /* VRMKit in Frameworks */,
 			);
@@ -141,6 +145,7 @@
 				067C5C532AAD6EC600F8FBB3 /* AliciaSolid.vrm */,
 				245725D92146F47A003AA5D7 /* AppDelegate.swift */,
 				245725DB2146F47A003AA5D7 /* ViewController.swift */,
+				A1B2C3D4E5F60718293A4B5D /* RealityKitViewController.swift */,
 				245725DD2146F47B003AA5D7 /* Main.storyboard */,
 				245725E02146F47D003AA5D7 /* Assets.xcassets */,
 				245725E22146F47D003AA5D7 /* LaunchScreen.storyboard */,
@@ -212,6 +217,7 @@
 			packageProductDependencies = (
 				067C5C4F2AAD6D8B00F8FBB3 /* VRMKit */,
 				067C5C512AAD6D8B00F8FBB3 /* VRMSceneKit */,
+				A1B2C3D4E5F60718293A4B5F /* VRMRealityKit */,
 			);
 			productName = VRMExample;
 			productReference = 245725D72146F47A003AA5D7 /* VRMExample.app */;
@@ -246,6 +252,9 @@
 				Base,
 			);
 			mainGroup = 24CF7F712143EEDB007A5C6C;
+			packageReferences = (
+				A1B2C3D4E5F60718293A4B61 /* XCLocalSwiftPackageReference ".." */,
+			);
 			productRefGroup = 24CF7F7C2143EEDB007A5C6C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -296,6 +305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				245725DC2146F47A003AA5D7 /* ViewController.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5E /* RealityKitViewController.swift in Sources */,
 				245725DA2146F47A003AA5D7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,6 +349,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchExample Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = WatchExample;
@@ -359,6 +370,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.7;
 			};
 			name = Debug;
 		};
@@ -371,6 +383,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchExample Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = WatchExample;
@@ -390,6 +403,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.7;
 			};
 			name = Release;
 		};
@@ -399,7 +413,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -417,7 +433,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Example/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -587,22 +605,38 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		A1B2C3D4E5F60718293A4B61 /* XCLocalSwiftPackageReference ".." */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ..;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
 		067C5C4F2AAD6D8B00F8FBB3 /* VRMKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = A1B2C3D4E5F60718293A4B61 /* XCLocalSwiftPackageReference ".." */;
 			productName = VRMKit;
 		};
 		067C5C512AAD6D8B00F8FBB3 /* VRMSceneKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = A1B2C3D4E5F60718293A4B61 /* XCLocalSwiftPackageReference ".." */;
 			productName = VRMSceneKit;
 		};
 		06F0BD7E2AAD82120089488C /* VRMKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = A1B2C3D4E5F60718293A4B61 /* XCLocalSwiftPackageReference ".." */;
 			productName = VRMKit;
 		};
 		06F0BD802AAD82120089488C /* VRMSceneKit */ = {
 			isa = XCSwiftPackageProductDependency;
+			package = A1B2C3D4E5F60718293A4B61 /* XCLocalSwiftPackageReference ".." */;
 			productName = VRMSceneKit;
+		};
+		A1B2C3D4E5F60718293A4B5F /* VRMRealityKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1B2C3D4E5F60718293A4B61 /* XCLocalSwiftPackageReference ".." */;
+			productName = VRMRealityKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
