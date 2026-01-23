@@ -70,12 +70,12 @@ import RealityKit
 import VRMKit
 import VRMRealityKit
 
-let loader = try VRMRealityKitSceneLoader(named: "model.vrm")
-let scene = try loader.loadScene()
+let loader = try VRMEntityLoader(named: "model.vrm")
+let vrmEntity = try loader.loadEntity()
 
 let arView = ARView(frame: .zero, cameraMode: .nonAR, automaticallyConfigureSession: false)
 let anchor = AnchorEntity(world: .zero)
-anchor.addChild(scene.rootEntity)
+anchor.addChild(vrmEntity.entity)
 arView.scene.addAnchor(anchor)
 ```
 
@@ -92,9 +92,9 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         RealityView { content in
-            let loader = try VRMRealityKitSceneLoader(named: "model.vrm")
-            let scene = try loader.loadScene()
-            content.add(scene.rootEntity)
+            let loader = try VRMEntityLoader(named: "model.vrm")
+            let vrmEntity = try loader.loadEntity()
+            content.add(vrmEntity.entity)
         }
     }
 }
@@ -125,19 +125,19 @@ sceneView.scene = scene
 <img src="https://github.com/tattn/VRMKit/raw/main/.github/alicia_joy.png" width="100px" alt="joy" />
 
 ```swift
-entity.setBlendShape(value: 1.0, for: .preset(.joy))
+vrmEntity.setBlendShape(value: 1.0, for: .preset(.joy))
 ```
 
 <img src="https://github.com/tattn/VRMKit/raw/main/.github/alicia_angry.png" width="100px" alt="angry" />
 
 ```swift
-entity.setBlendShape(value: 1.0, for: .preset(.angry))
+vrmEntity.setBlendShape(value: 1.0, for: .preset(.angry))
 ```
 
 <img src="https://github.com/tattn/VRMKit/raw/main/.github/alicia_><.png" width="100px" alt="><" />
 
 ```swift
-entity.setBlendShape(value: 1.0, for: .custom("><"))
+vrmEntity.setBlendShape(value: 1.0, for: .custom("><"))
 ```
 
 ### Bone animation
@@ -145,16 +145,18 @@ entity.setBlendShape(value: 1.0, for: .custom("><"))
 <img src="https://github.com/tattn/VRMKit/raw/main/.github/alicia_humanoid.png" width="200px" alt="Humanoid" />
 
 ```swift
-entity.setBlendShape(value: 1.0, for: .preset(.fun))
-entity.humanoid.node(for: .neck)?.eulerAngles = SCNVector3(0, 0, 20 * CGFloat.pi / 180)
-entity.humanoid.node(for: .leftShoulder)?.eulerAngles = SCNVector3(0, 0, 40 * CGFloat.pi / 180)
-entity.humanoid.node(for: .rightShoulder)?.eulerAngles = SCNVector3(0, 0, 40 * CGFloat.pi / 180)
+vrmEntity.setBlendShape(value: 1.0, for: .preset(.fun))
+let neckRotation = simd_quatf(angle: 20 * .pi / 180, axis: SIMD3<Float>(0, 0, 1))
+let shoulderRotation = simd_quatf(angle: 40 * .pi / 180, axis: SIMD3<Float>(0, 0, 1))
+vrmEntity.humanoid.node(for: .neck)?.transform.rotation *= neckRotation
+vrmEntity.humanoid.node(for: .leftShoulder)?.transform.rotation *= shoulderRotation
+vrmEntity.humanoid.node(for: .rightShoulder)?.transform.rotation *= shoulderRotation
 ```
 
 ### Read the thumbnail image
 
 ```swift
-let loader = try VRMRealityKitSceneLoader(named: "model.vrm")
+let loader = try VRMEntityLoader(named: "model.vrm")
 let image = try loader.loadThumbnail()
 ```
 

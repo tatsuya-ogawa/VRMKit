@@ -6,13 +6,14 @@ import VRMKit
 import UIKit
 
 @available(iOS 18.0, visionOS 2.0, *)
-open class VRMRealityKitSceneLoader {
+open class VRMEntityLoader {
     let vrm: VRM
     private let gltf: GLTF
-    private let sceneData: RealityKitSceneData
+    private let entityData: EntityData
 
     private var rootDirectory: URL? = nil
-    private weak var currentVRMEntity: VRMRealityKitEntity?
+    private let entityName: String?
+    private weak var currentEntity: VRMEntity?
     private var textureCacheBySemantic: [TextureResource.Semantic: [Int: TextureResource]] = [:]
     private var metallicRoughnessCache: [Int: (metal: TextureResource, rough: TextureResource)] = [:]
     private var samplerCache: [Int: MaterialParameters.Texture.Sampler] = [:]
@@ -22,41 +23,44 @@ open class VRMRealityKitSceneLoader {
         self.vrm = vrm
         self.gltf = vrm.gltf.jsonData
         self.rootDirectory = rootDirectory
-        self.sceneData = RealityKitSceneData(vrm: gltf)
+        self.entityName = vrm.meta.title
+        self.entityData = EntityData(vrm: gltf)
     }
 
-    public func loadScene() throws -> VRMRealityKitScene {
-        return try loadScene(withSceneIndex: gltf.scene)
+    public func loadEntity() throws -> VRMEntity {
+        return try loadEntity(withSceneIndex: gltf.scene)
     }
 
-    public func loadScene(withSceneIndex index: Int) throws -> VRMRealityKitScene {
-        if let cache = try sceneData.load(\.scenes, index: index) { return cache }
+    public func loadEntity(withSceneIndex index: Int) throws -> VRMEntity {
+        if let cache = try entityData.load(\.entities, index: index) { return cache }
         let gltfScene = try gltf.load(\.scenes, keyName: "scenes")[index]
 
-        let vrmEntity = VRMRealityKitEntity(vrm: vrm)
-        currentVRMEntity = vrmEntity
-        defer { currentVRMEntity = nil }
+        let vrmEntity = VRMEntity(vrm: vrm)
+        if let entityName {
+            vrmEntity.entity.name = entityName
+        }
+        currentEntity = vrmEntity
+        defer { currentEntity = nil }
         for node in gltfScene.nodes ?? [] {
             vrmEntity.entity.addChild(try self.node(withNodeIndex: node))
         }
-        vrmEntity.setUpHumanoid(nodes: sceneData.nodes)
-        vrmEntity.setUpBlendShapes(meshes: sceneData.meshes)
+        vrmEntity.setUpHumanoid(nodes: entityData.nodes)
+        vrmEntity.setUpBlendShapes(meshes: entityData.meshes)
         try vrmEntity.setUpSpringBones(loader: self)
         // TODO: Constraints, animations.
 
-        let scene = VRMRealityKitScene(entity: vrmEntity)
-        sceneData.scenes[index] = scene
-        return scene
+        entityData.entities[index] = vrmEntity
+        return vrmEntity
     }
 
     public func loadThumbnail() throws -> UIImage? {
         guard let textureIndex = vrm.meta.texture else { return nil }
-        if let cache = try sceneData.load(\.images, index: textureIndex) { return cache }
+        if let cache = try entityData.load(\.images, index: textureIndex) { return cache }
         return try image(withImageIndex: textureIndex)
     }
 
     func node(withNodeIndex index: Int) throws -> Entity {
-        if let cache = try sceneData.load(\.nodes, index: index) { return cache }
+        if let cache = try entityData.load(\.nodes, index: index) { return cache }
         let gltfNode = try gltf.load(\.nodes, keyName: "nodes")[index]
 
         let entity = Entity()
@@ -83,7 +87,7 @@ open class VRMRealityKitSceneLoader {
             entity.addChild(try node(withNodeIndex: child))
         }
 
-        sceneData.nodes[index] = entity
+        entityData.nodes[index] = entity
         return entity
     }
 
@@ -120,7 +124,7 @@ open class VRMRealityKitSceneLoader {
     }
 
     func mesh(withMeshIndex index: Int, skinIndex: Int?) throws -> Entity {
-        if skinIndex == nil, let cache = try sceneData.load(\.meshes, index: index) {
+        if skinIndex == nil, let cache = try entityData.load(\.meshes, index: index) {
             return cache.clone(recursive: true)
         }
 
@@ -155,11 +159,11 @@ open class VRMRealityKitSceneLoader {
         }
 
         if skinIndex == nil {
-            sceneData.meshes[index] = meshEntity
+            entityData.meshes[index] = meshEntity
             return meshEntity.clone(recursive: true)
         }
-        if sceneData.meshes.indices.contains(index), sceneData.meshes[index] == nil {
-            sceneData.meshes[index] = meshEntity
+        if entityData.meshes.indices.contains(index), entityData.meshes[index] == nil {
+            entityData.meshes[index] = meshEntity
         }
         return meshEntity
     }
@@ -385,7 +389,7 @@ open class VRMRealityKitSceneLoader {
     }
 
     func material(withMaterialIndex index: Int) throws -> Material {
-        if let cache = try sceneData.load(\.materials, index: index) { return cache }
+        if let cache = try entityData.load(\.materials, index: index) { return cache }
         let gltfMaterial = try gltf.load(\.materials, keyName: "materials")[index]
 
         let materialProperty: VRM.MaterialProperty? = {
@@ -444,7 +448,7 @@ open class VRMRealityKitSceneLoader {
             if gltfMaterial.doubleSided {
                 material.faceCulling = .none
             }
-            sceneData.materials[index] = material
+            entityData.materials[index] = material
             return material
         }
 
@@ -498,12 +502,12 @@ open class VRMRealityKitSceneLoader {
             material.faceCulling = .none
         }
 
-        sceneData.materials[index] = material
+        entityData.materials[index] = material
         return material
     }
 
     func texture(withTextureIndex index: Int, semantic: TextureResource.Semantic = .color) throws -> TextureResource {
-        if semantic == .color, let cache = try sceneData.load(\.textures, index: index) {
+        if semantic == .color, let cache = try entityData.load(\.textures, index: index) {
             return cache
         }
         if semantic != .color, let cache = textureCacheBySemantic[semantic]?[index] {
@@ -514,7 +518,7 @@ open class VRMRealityKitSceneLoader {
         guard let cgImage = image.cgImage else { throw VRMError._dataInconsistent("failed to load cgImage") }
         let texture = try TextureResource.generate(from: cgImage, options: .init(semantic: semantic))
         if semantic == .color {
-            sceneData.textures[index] = texture
+            entityData.textures[index] = texture
         } else {
             var cache = textureCacheBySemantic[semantic] ?? [:]
             cache[index] = texture
@@ -600,27 +604,27 @@ open class VRMRealityKitSceneLoader {
     }
 
     func image(withImageIndex index: Int) throws -> UIImage {
-        if let cache = try sceneData.load(\.images, index: index) { return cache }
+        if let cache = try entityData.load(\.images, index: index) { return cache }
         let gltfImage = try gltf.load(\.images, keyName: "images")[index]
         let image = try UIImage(image: gltfImage, relativeTo: rootDirectory, loader: self)
-        sceneData.images[index] = image
+        entityData.images[index] = image
         return image
     }
 
     func bufferView(withBufferViewIndex index: Int) throws -> (bufferView: Data, stride: Int?) {
         let gltfBufferView = try gltf.load(\.bufferViews, keyName: "bufferViews")[index]
-        if let cache = try sceneData.load(\.bufferViews, index: index) { return (cache, gltfBufferView.byteStride) }
+        if let cache = try entityData.load(\.bufferViews, index: index) { return (cache, gltfBufferView.byteStride) }
         let buffer = try self.buffer(withBufferIndex: gltfBufferView.buffer)
         let bufferView = buffer.subdata(in: gltfBufferView.byteOffset..<gltfBufferView.byteOffset + gltfBufferView.byteLength)
-        sceneData.bufferViews[index] = bufferView
+        entityData.bufferViews[index] = bufferView
         return (bufferView, gltfBufferView.byteStride)
     }
 
     private func buffer(withBufferIndex index: Int) throws -> Data {
-        if let cache = try sceneData.load(\.buffers, index: index) { return cache }
+        if let cache = try entityData.load(\.buffers, index: index) { return cache }
         let gltfBuffer = try gltf.load(\.buffers, keyName: "buffers")[index]
         let buffer = try Data(buffer: gltfBuffer, relativeTo: rootDirectory, vrm: vrm)
-        sceneData.buffers[index] = buffer
+        entityData.buffers[index] = buffer
         return buffer
     }
 
@@ -758,7 +762,7 @@ open class VRMRealityKitSceneLoader {
     }
 
     private func accessorSlice(_ index: Int) throws -> AccessorSlice {
-        if let cache = try sceneData.load(\.accessors, index: index) as? AccessorSlice {
+        if let cache = try entityData.load(\.accessors, index: index) as? AccessorSlice {
             return cache
         }
         let accessor = try gltf.load(\.accessors, keyName: "accessors")[index]
@@ -786,7 +790,7 @@ open class VRMRealityKitSceneLoader {
             componentType: accessor.componentType,
             normalized: accessor.normalized
         )
-        sceneData.accessors[index] = slice
+        entityData.accessors[index] = slice
         return slice
     }
 
@@ -1071,11 +1075,11 @@ open class VRMRealityKitSceneLoader {
     }
 
     private func skeleton(withSkinIndex index: Int) throws -> MeshResource.Skeleton {
-        if let cache = try sceneData.load(\.skins, index: index) { return cache }
+        if let cache = try entityData.load(\.skins, index: index) { return cache }
         let skin = try gltf.load(\.skins, keyName: "skins")[index]
         let nodes = try gltf.load(\.nodes, keyName: "nodes")
         let (parentIndices, order, remap) = computeSkinJointOrdering(skin: skin, nodes: nodes)
-        sceneData.skinJointRemaps[index] = remap
+        entityData.skinJointRemaps[index] = remap
 
         let inverseBindMatrices: [simd_float4x4] = {
             guard let accessorIndex = skin.inverseBindMatrices else {
@@ -1103,16 +1107,16 @@ open class VRMRealityKitSceneLoader {
         }
 
         let skeleton = MeshResource.Skeleton(id: "skin_\(index)", joints: joints)
-        sceneData.skins[index] = skeleton
+        entityData.skins[index] = skeleton
         return skeleton
     }
 
     private func jointIndexRemap(forSkinIndex index: Int) throws -> [Int] {
-        if let cache = try sceneData.load(\.skinJointRemaps, index: index) { return cache }
+        if let cache = try entityData.load(\.skinJointRemaps, index: index) { return cache }
         let skin = try gltf.load(\.skins, keyName: "skins")[index]
         let nodes = try gltf.load(\.nodes, keyName: "nodes")
         let (_, _, remap) = computeSkinJointOrdering(skin: skin, nodes: nodes)
-        sceneData.skinJointRemaps[index] = remap
+        entityData.skinJointRemaps[index] = remap
         return remap
     }
 
@@ -1257,7 +1261,7 @@ open class VRMRealityKitSceneLoader {
     private func registerSkinBinding(modelEntity: ModelEntity,
                                      skinIndex: Int,
                                      skeleton: MeshResource.Skeleton) throws {
-        guard let vrmEntity = currentVRMEntity else { return }
+        guard let vrmEntity = currentEntity else { return }
         let skin = try gltf.load(\.skins, keyName: "skins")[skinIndex]
         var jointEntities = try skin.joints.map { try node(withNodeIndex: $0) }
         if let remap = try? jointIndexRemap(forSkinIndex: skinIndex), remap.count == jointEntities.count {

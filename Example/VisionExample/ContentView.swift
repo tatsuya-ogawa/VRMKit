@@ -45,7 +45,7 @@ struct ImmersiveView: View {
             content.add(viewModel.rootEntity)
         }
         .task {
-            await viewModel.loadScene()
+            await viewModel.loadEntity()
         }
         .onReceive(viewModel.updateTimer) { _ in
             viewModel.update()
@@ -58,23 +58,22 @@ struct ImmersiveView: View {
 final class ImmersiveViewModel {
     let rootEntity = Entity()
     private(set) var errorMessage: String?
-    private var scene: VRMRealityKitScene?
+    private var vrmEntity: VRMEntity?
     private var time: TimeInterval = 0
     private var lastUpdateTime: Date?
     
     let updateTimer = Timer.publish(every: 1.0 / 60.0, on: .main, in: .common).autoconnect()
 
-    func loadScene() async {
+    func loadEntity() async {
         do {
-            let loader = try VRMRealityKitSceneLoader(named: "AliciaSolid.vrm")
-            let scene = try loader.loadScene()
+            let loader = try VRMEntityLoader(named: "AliciaSolid.vrm")
+            let vrmEntity = try loader.loadEntity()
             
-            scene.rootEntity.transform.translation = SIMD3<Float>(0, 0, -1.5)
-            scene.rootEntity.transform.rotation = simd_quatf(angle: .pi, axis: SIMD3<Float>(0, 1, 0))
-            rootEntity.addChild(scene.rootEntity)
+            vrmEntity.entity.transform.translation = SIMD3<Float>(0, 0, -1.5)
+            vrmEntity.entity.transform.rotation = simd_quatf(angle: .pi, axis: SIMD3<Float>(0, 1, 0))
+            rootEntity.addChild(vrmEntity.entity)
 
             // Adjust pose
-            let vrmEntity = scene.vrmEntity
             let neck = vrmEntity.humanoid.node(for: .neck)
             let leftShoulder = vrmEntity.humanoid.node(for: .leftShoulder) ?? vrmEntity.humanoid.node(for: .leftUpperArm)
             let rightShoulder = vrmEntity.humanoid.node(for: .rightShoulder) ?? vrmEntity.humanoid.node(for: .rightUpperArm)
@@ -92,7 +91,7 @@ final class ImmersiveViewModel {
             }
             vrmEntity.setBlendShape(value: 1.0, for: .custom("><"))
             
-            self.scene = scene
+            self.vrmEntity = vrmEntity
             self.lastUpdateTime = Date()
         } catch {
             errorMessage = error.localizedDescription
@@ -101,7 +100,7 @@ final class ImmersiveViewModel {
     }
     
     func update() {
-        guard let scene else { return }
+        guard let vrmEntity else { return }
         
         let now = Date()
         let deltaTime = lastUpdateTime.map { now.timeIntervalSince($0) } ?? (1.0 / 60.0)
@@ -120,7 +119,7 @@ final class ImmersiveViewModel {
             angle = -0.5 + 0.5 * progress
         }
         
-        scene.rootEntity.transform.rotation = simd_quatf(angle: .pi + angle, axis: SIMD3<Float>(0, 1, 0))
-        scene.vrmEntity.update(at: deltaTime)
+        vrmEntity.entity.transform.rotation = simd_quatf(angle: .pi + angle, axis: SIMD3<Float>(0, 1, 0))
+        vrmEntity.update(at: deltaTime)
     }
 }

@@ -3,11 +3,11 @@ import RealityKit
 import VRMKit
 
 @available(iOS 18.0, visionOS 2.0, *)
-final class VRMRealityKitSpringBoneColliderGroup {
+final class VRMEntitySpringBoneColliderGroup {
     let node: Entity
     let colliders: [SphereCollider]
 
-    init(colliderGroup: VRM.SecondaryAnimation.ColliderGroup, loader: VRMRealityKitSceneLoader) throws {
+    init(colliderGroup: VRM.SecondaryAnimation.ColliderGroup, loader: VRMEntityLoader) throws {
         self.node = try loader.node(withNodeIndex: colliderGroup.node)
         self.colliders = colliderGroup.colliders.map(SphereCollider.init)
     }

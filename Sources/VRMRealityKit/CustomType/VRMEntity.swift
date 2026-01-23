@@ -13,7 +13,7 @@ struct BlendShapeNormalTangentComponent: Component {
 }
 
 @available(iOS 18.0, visionOS 2.0, *)
-public final class VRMRealityKitEntity {
+public final class VRMEntity {
     public let vrm: VRM
     public let entity: Entity
     public let humanoid = Humanoid()
@@ -22,7 +22,7 @@ public final class VRMRealityKitEntity {
 
     var blendShapeClips: [BlendShapeKey: BlendShapeClip] = [:]
     private var skinBindings: [SkinBinding] = []
-    private var springBones: [VRMRealityKitSpringBone] = []
+    private var springBones: [VRMEntitySpringBone] = []
 
     struct SkinBinding {
         let modelEntity: ModelEntity
@@ -59,17 +59,17 @@ public final class VRMRealityKitEntity {
             }
     }
 
-    func setUpSpringBones(loader: VRMRealityKitSceneLoader) throws {
-        var springBones: [VRMRealityKitSpringBone] = []
+    func setUpSpringBones(loader: VRMEntityLoader) throws {
+        var springBones: [VRMEntitySpringBone] = []
         let secondaryAnimation = vrm.secondaryAnimation
         for boneGroup in secondaryAnimation.boneGroups {
             guard !boneGroup.bones.isEmpty else { return }
             let rootBones: [Entity] = try boneGroup.bones.compactMap { try loader.node(withNodeIndex: $0) }
             let centerNode = try? loader.node(withNodeIndex: boneGroup.center)
             let colliderGroups = try secondaryAnimation.colliderGroups.map {
-                try VRMRealityKitSpringBoneColliderGroup(colliderGroup: $0, loader: loader)
+                try VRMEntitySpringBoneColliderGroup(colliderGroup: $0, loader: loader)
             }
-            let springBone = VRMRealityKitSpringBone(center: centerNode,
+            let springBone = VRMEntitySpringBone(center: centerNode,
                                                      rootBones: rootBones,
                                                      comment: boneGroup.comment,
                                                      stiffnessForce: Float(boneGroup.stiffiness),

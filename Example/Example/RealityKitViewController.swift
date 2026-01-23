@@ -8,13 +8,12 @@ import VRMRealityKit
 final class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {
     private var arView: ARView?
     private var updateSubscription: Cancellable?
-    private var loadedScene: VRMRealityKitScene?
+    private var loadedEntity: VRMEntity?
     private var cameraAnchor: AnchorEntity?
     private var cameraEntity: PerspectiveCamera?
-    private var contentRoot: Entity?
     private var orbitYaw: Float = 0
     private var orbitPitch: Float = -0.1
-    private var orbitDistance: Float = 1.6
+    private var orbitDistance: Float = 2
     private var orbitTarget = SIMD3<Float>(0, 0.8, 0)
 
     override func viewDidLoad() {
@@ -47,22 +46,17 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
         guard let arView = arView else { return }
 
         do {
-            let loader = try VRMRealityKitSceneLoader(named: "AliciaSolid.vrm")
-            let scene = try loader.loadScene()
+            let loader = try VRMEntityLoader(named: "AliciaSolid.vrm")
+            let vrmEntity = try loader.loadEntity()
 
             let anchor = AnchorEntity(world: .zero)
-            let contentRoot = Entity()
-            contentRoot.name = "RealityKitContentRoot"
-            contentRoot.transform.translation = SIMD3<Float>(0, -1.0, -1.5)
-            scene.rootEntity.transform.translation = .zero
-            contentRoot.addChild(scene.rootEntity)
-            anchor.addChild(contentRoot)
+            vrmEntity.entity.transform.translation = SIMD3<Float>(0, -1.0, -1.5)
+            anchor.addChild(vrmEntity.entity)
             arView.scene.addAnchor(anchor)
-            normalizeScale(for: contentRoot)
-            updateOrbitTarget(for: contentRoot, adjustDistance: false)
-            self.contentRoot = contentRoot
+            normalizeScale(for: vrmEntity.entity)
+            updateOrbitTarget(for: vrmEntity.entity, adjustDistance: false)
+            updateCameraTransform()
             
-            let vrmEntity = scene.vrmEntity
             let neck = vrmEntity.humanoid.node(for: .neck)
             let leftShoulder = vrmEntity.humanoid.node(for: .leftShoulder) ?? vrmEntity.humanoid.node(for: .leftUpperArm)
             let rightShoulder = vrmEntity.humanoid.node(for: .rightShoulder) ?? vrmEntity.humanoid.node(for: .rightUpperArm)
@@ -80,11 +74,11 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
             }
             vrmEntity.setBlendShape(value: 1.0, for: .custom("><"))
             
-            loadedScene = scene
+            loadedEntity = vrmEntity
             
             var time: TimeInterval = 0
             updateSubscription = arView.scene.subscribe(to: SceneEvents.Update.self) { [weak self] event in
-                guard let scene = self?.loadedScene else { return }
+                guard let loadedEntity = self?.loadedEntity else { return }
                 
                 time += event.deltaTime
                 
@@ -98,9 +92,9 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
                     angle = -0.5 + 0.5 * progress
                 }
                 
-                scene.rootEntity.transform.rotation = simd_quatf(angle: angle, axis: SIMD3<Float>(0, 1, 0))
+                loadedEntity.entity.transform.rotation = simd_quatf(angle: angle, axis: SIMD3<Float>(0, 1, 0))
                 
-                scene.vrmEntity.update(at: event.deltaTime)
+                loadedEntity.update(at: event.deltaTime)
             }
         } catch {
             print(error)
@@ -145,7 +139,7 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
         let maxExtent = max(extents.x, max(extents.y, extents.z))
         orbitTarget = center
         if adjustDistance {
-            orbitDistance = max(0.2, maxExtent * 2.0)
+            orbitDistance = max(0.2, maxExtent * 3.0)
         }
         updateCameraTransform()
     }

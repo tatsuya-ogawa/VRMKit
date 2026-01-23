@@ -4,7 +4,7 @@ import VRMKit
 import Foundation
 
 @available(iOS 18.0, visionOS 2.0, *)
-final class VRMRealityKitSpringBone {
+final class VRMEntitySpringBone {
     struct SphereCollider {
         let position: SIMD3<Float>
         let radius: Float
@@ -20,8 +20,8 @@ final class VRMRealityKitSpringBone {
     public let hitRadius: Float
 
     private var initialLocalRotations: [(Entity, simd_quatf)] = []
-    private let colliderGroups: [VRMRealityKitSpringBoneColliderGroup]
-    private var verlet: [VRMRealityKitSpringBoneLogic] = []
+    private let colliderGroups: [VRMEntitySpringBoneColliderGroup]
+    private var verlet: [VRMEntitySpringBoneLogic] = []
     private var colliderList: [SphereCollider] = []
 
     init(center: Entity?,
@@ -32,7 +32,7 @@ final class VRMRealityKitSpringBone {
          gravityDir: SIMD3<Float> = .init(0, -1, 0),
          dragForce: Float = 0.4,
          hitRadius: Float = 0.02,
-         colliderGroups: [VRMRealityKitSpringBoneColliderGroup] = []) {
+         colliderGroups: [VRMEntitySpringBoneColliderGroup] = []) {
         self.center = center
         self.rootBones = rootBones
         self.comment = comment
@@ -73,20 +73,20 @@ final class VRMRealityKitSpringBone {
             let delta = parent.utx.position - parentNode.utx.position
             let childPosition = parent.utx.position + delta.normalized * 0.07
             let localChild = parent.utx.worldToLocalMatrix.multiplyPoint(childPosition)
-            let logic = VRMRealityKitSpringBoneLogic(center: center,
-                                                     node: parent,
-                                                     localChildPosition: localChild)
+            let logic = VRMEntitySpringBoneLogic(center: center,
+                                                 node: parent,
+                                                 localChildPosition: localChild)
             verlet.append(logic)
         } else if let firstChild = parent.children.first {
             let localPosition = firstChild.utx.localPosition
             let scale = firstChild.utx.lossyScale
-            let logic = VRMRealityKitSpringBoneLogic(center: center,
-                                                     node: parent,
-                                                     localChildPosition: SIMD3<Float>(
-                                                        localPosition.x * scale.x,
-                                                        localPosition.y * scale.y,
-                                                        localPosition.z * scale.z
-                                                     ))
+            let logic = VRMEntitySpringBoneLogic(center: center,
+                                                 node: parent,
+                                                 localChildPosition: SIMD3<Float>(
+                                                    localPosition.x * scale.x,
+                                                    localPosition.y * scale.y,
+                                                    localPosition.z * scale.z
+                                                 ))
             verlet.append(logic)
         }
 
@@ -128,8 +128,8 @@ final class VRMRealityKitSpringBone {
 }
 
 @available(iOS 18.0, visionOS 2.0, *)
-extension VRMRealityKitSpringBone {
-    final class VRMRealityKitSpringBoneLogic {
+extension VRMEntitySpringBone {
+    final class VRMEntitySpringBoneLogic {
         let node: Entity
         var head: Entity { node }
         private let length: Float

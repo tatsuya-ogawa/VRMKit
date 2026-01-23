@@ -7,9 +7,8 @@ import QuartzCore
 #endif
 
 @available(iOS 18.0, visionOS 2.0, *)
-final class RealityKitSceneData {
-    var scene: VRMRealityKitScene?
-    var scenes: [VRMRealityKitScene?]
+final class EntityData {
+    var entities: [VRMEntity?]
     var cameras: [Entity?]
     var nodes: [Entity?]
     var skins: [MeshResource.Skeleton?]
@@ -28,7 +27,7 @@ final class RealityKitSceneData {
     var images: [UIImage?] = []
 
     init(vrm: GLTF) {
-        scenes = Array(repeating: nil, count: vrm.scenes?.count ?? 0)
+        entities = Array(repeating: nil, count: vrm.scenes?.count ?? 0)
         cameras = Array(repeating: nil, count: vrm.cameras?.count ?? 0)
         nodes = Array(repeating: nil, count: vrm.nodes?.count ?? 0)
         skins = Array(repeating: nil, count: vrm.skins?.count ?? 0)
@@ -47,14 +46,14 @@ final class RealityKitSceneData {
         images = Array(repeating: nil, count: vrm.images?.count ?? 0)
     }
 
-    enum SceneDataError: Error {
+    enum EntityDataError: Error {
         case outOfRange(keyPath: String, index: Int, count: Int)
     }
 
-    func load<T>(_ keyPath: KeyPath<RealityKitSceneData, [T]>, index: Int) throws -> T {
+    func load<T>(_ keyPath: KeyPath<EntityData, [T]>, index: Int) throws -> T {
         let values = self[keyPath: keyPath]
         guard values.indices.contains(index) else {
-            throw SceneDataError.outOfRange(keyPath: String(describing: keyPath), index: index, count: values.count)
+            throw EntityDataError.outOfRange(keyPath: String(describing: keyPath), index: index, count: values.count)
         }
         return values[index]
     }
