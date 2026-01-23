@@ -1,14 +1,7 @@
-//
-//  VRMSpringBoneColliderGroup.swift
-//  VRMKit
-//
-//  Created by Tomoya Hirano on 2019/12/21.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 final class VRMSpringBoneColliderGroup {
     let node: SCNNode
     let colliders: [SphereCollider]
@@ -18,6 +11,7 @@ final class VRMSpringBoneColliderGroup {
         self.colliders = colliderGroup.colliders.map(SphereCollider.init)
     }
     
+    @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     final class SphereCollider {
         let offset: SIMD3<Float>
         let radius: Float

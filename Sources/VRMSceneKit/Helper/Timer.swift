@@ -1,13 +1,6 @@
-//
-//  Timer.swift
-//  VRMSceneKit
-//
-//  Created by Tomoya Hirano on 2019/12/29.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import Foundation
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 final class Timer {
     private var lastUpdateTime = TimeInterval()
     

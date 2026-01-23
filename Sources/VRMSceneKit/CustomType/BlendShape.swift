@@ -1,13 +1,6 @@
-//
-//  BlendShape.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 2019/02/10.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 struct BlendShapeClip {
     let name: String
     let preset: BlendShapePreset
@@ -19,12 +12,14 @@ struct BlendShapeClip {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 struct BlendShapeBinding {
     let mesh: SCNNode
     let index: Int
     let weight: Double
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 struct MaterialValueBinding {
     let materialName: String
     let valueName: String
@@ -32,6 +27,7 @@ struct MaterialValueBinding {
     let baseValue: SCNVector4
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 public enum BlendShapeKey: Hashable {
     case preset(BlendShapePreset)
     case custom(String)
@@ -43,6 +39,7 @@ public enum BlendShapeKey: Hashable {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 public enum BlendShapePreset: String {
     case unknown
     case neutral

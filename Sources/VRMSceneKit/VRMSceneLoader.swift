@@ -1,16 +1,9 @@
-//
-//  VRMSceneLoader.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 20180911.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 import Foundation
 import VRMKit
 import SceneKit
 import SpriteKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 open class VRMSceneLoader {
     let vrm: VRM
     private let gltf: GLTF

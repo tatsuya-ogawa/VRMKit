@@ -1,15 +1,9 @@
-//
-//  VRM1SceneLoader.swift
-//  VRMKit
-//
-//  Created by GH on 6/13/25.
-//
-
 import Foundation
 import VRMKit
 import SceneKit
 import UIKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 open class VRM1SceneLoader {
     let vrm1: VRM1
     private let gltf: GLTF
@@ -103,6 +97,7 @@ open class VRM1SceneLoader {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension VRM1SceneLoader {
     public convenience init(withURL url: URL, rootDirectory: URL? = nil) throws {
         let vrm1 = try VRMLoader().load(VRM1.self, withURL: url)

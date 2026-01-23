@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  VRMExample
-//
-//  Created by Tatsuya Tanaka on 20180911.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 import UIKit
 import SceneKit
 import VRMKit
@@ -56,7 +48,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: SCNSceneRendererDelegate {
+extension ViewController: @MainActor SCNSceneRendererDelegate {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         (renderer.scene as! VRMScene).vrmNode.update(at: time)
     }

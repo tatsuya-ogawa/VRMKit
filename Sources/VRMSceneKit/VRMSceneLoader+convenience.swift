@@ -1,14 +1,7 @@
-//
-//  VRMSceneLoader+convenience.swift
-//  VRMKit
-//
-//  Created by Tatsuya Tanaka on 20180911.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 import VRMKit
 import Foundation
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension VRMSceneLoader {
     public convenience init(withURL url: URL, rootDirectory: URL? = nil) throws {
         let vrm = try VRMLoader().load(withURL: url)

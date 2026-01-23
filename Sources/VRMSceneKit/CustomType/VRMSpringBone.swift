@@ -1,16 +1,10 @@
-//
-//  VRMSpringBone.swift
-//  SpringBoneKit
-//
-//  Created by Tomoya Hirano on 2019/12/20.
-//  Copyright © 2019 Tomoya Hirano. All rights reserved.
-//
-
 import SceneKit
 import GameKit
 import VRMKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 final class VRMSpringBone {
+    @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     struct SphereCollider {
         let position: SIMD3<Float>
         let radius: Float
@@ -95,7 +89,7 @@ final class VRMSpringBone {
     
     private func setLocalRotationsIdentity() {
         for verlet in self.verlet {
-            verlet.head.utx.localRotation = quart_identity_float
+            verlet.head.utx.localRotation = quat_identity_float
         }
     }
     
@@ -150,7 +144,9 @@ final class VRMSpringBone {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension VRMSpringBone {
+    @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     class VRMSpringBoneLogic {
         let node: SCNNode
         public var head: SCNNode { self.node }
@@ -160,7 +156,7 @@ extension VRMSpringBone {
         private let localRotation: simd_quatf
         private let boneAxis: SIMD3<Float>
         private var parentRotation: simd_quatf {
-            self.node.parent?.utx.rotation ?? quart_identity_float
+            self.node.parent?.utx.rotation ?? quat_identity_float
         }
         var radius: Float = 0.5
         

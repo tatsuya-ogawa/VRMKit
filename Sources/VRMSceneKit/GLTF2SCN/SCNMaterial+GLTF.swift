@@ -1,15 +1,8 @@
-//
-//  SCNMaterial+GLTF.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 20180911.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 import VRMKit
 import SceneKit
 import SpriteKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension SCNMaterial {
     convenience init(material: GLTF.Material, loader: VRMSceneLoader) throws {
         self.init()

@@ -1,14 +1,7 @@
-//
-//  UIImage+GLTF.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 20180911.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 import VRMKit
 import UIKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension UIImage {
     convenience init(image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRMSceneLoader) throws {
         let data: Data

@@ -15,12 +15,27 @@ concurrency:
 
 jobs:
   test-package:
-    name: Test package
-    runs-on: macos-15
-    env:
-      DEVELOPER_DIR: "/Applications/Xcode_16.4.app/Contents/Developer"
+    name: Test package (${{ matrix.platform }})
+    runs-on: macos-26
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: iOS
+            sim_platform: iOS Simulator
+            device_name: iPhone
+          - platform: watchOS
+            sim_platform: watchOS Simulator
+            device_name: Watch
+          - platform: xrOS
+            sim_platform: visionOS Simulator
+            device_name: Apple Vision Pro
     steps:
       - uses: actions/checkout@v4
       - name: Test VRMKit
-        run: set -o pipefail && make test-package | xcpretty
-
+        run: |
+          set -o pipefail
+          make test-package-platform \
+            SIM_PLATFORM="${{ matrix.sim_platform }}" \
+            RUNTIME_PLATFORM="${{ matrix.platform }}" \
+            DEVICE_NAME="${{ matrix.device_name }}" | xcbeautify

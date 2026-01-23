@@ -1,11 +1,3 @@
-//
-//  ViewModel.swift
-//  WatchExample Watch App
-//
-//  Created by Tatsuya Tanaka on 2023/09/10.
-//  Copyright © 2023 tattn. All rights reserved.
-//
-
 import Foundation
 import VRMSceneKit
 import SceneKit

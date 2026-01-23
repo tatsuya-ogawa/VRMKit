@@ -1,16 +1,9 @@
-//
-//  InverseBindMatrix+GLTF.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 2019/02/11.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import VRMKit
 import SceneKit
 
 typealias InverseBindMatrix = NSValue
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension Array where Element == InverseBindMatrix {
     init(accessor: GLTF.Accessor, loader: VRMSceneLoader) throws {
         let (componentsPerVector, bytesPerComponent, vectorSize) = accessor.components()

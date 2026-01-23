@@ -1,14 +1,7 @@
-//
-//  VRMNode.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 2019/02/11.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import SceneKit
 import VRMKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 open class VRMNode: SCNNode {
     public let vrm: VRM
     public let humanoid = Humanoid()
@@ -101,6 +94,7 @@ open class VRMNode: SCNNode {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension VRMNode: RenderUpdatable {
     public func update(at time: TimeInterval) {
         let seconds = timer.deltaTime(updateAtTime: time)

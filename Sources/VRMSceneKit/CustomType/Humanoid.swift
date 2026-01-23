@@ -1,14 +1,7 @@
-//
-//  Humanoid.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 2019/02/11.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 public final class Humanoid {
     var bones: [Bones: SCNNode] = [:]
 
@@ -24,6 +17,7 @@ public final class Humanoid {
         return bones[bone]
     }
 
+    @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     public enum Bones: String {
         case hips
         case leftUpperLeg

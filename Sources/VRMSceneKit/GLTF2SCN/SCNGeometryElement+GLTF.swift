@@ -1,14 +1,7 @@
-//
-//  SCNGeometryElement+GLTF.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 20180911.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension SCNGeometryElement {
     convenience init(accessor: GLTF.Accessor, mode: GLTF.Mesh.Primitive.Mode, loader: VRMSceneLoader) throws {
         let primitiveType = try primitiveTypeOf(mode) ??? ._notSupported("\(mode) is not supported")

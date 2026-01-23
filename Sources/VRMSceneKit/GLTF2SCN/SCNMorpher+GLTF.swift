@@ -1,14 +1,7 @@
-//
-//  SCNMorpher+GLTF.swift
-//  VRMKit
-//
-//  Created by Tatsuya Tanaka on 2019/02/09.
-//  Copyright © 2019 tattn. All rights reserved.
-//
-
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension SCNMorpher {
     convenience init(primitiveTargets: [[GLTF.Mesh.Primitive.AttributeKey: Int]], loader: VRMSceneLoader) throws {
         self.init()

@@ -1,14 +1,7 @@
-//
-//  SCNCamera+GLTF.swift
-//  VRMSceneKit
-//
-//  Created by Tatsuya Tanaka on 20180911.
-//  Copyright © 2018年 tattn. All rights reserved.
-//
-
 import VRMKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension SCNCamera {
     convenience init(camera: GLTF.Camera) throws {
         self.init()
