@@ -2,7 +2,7 @@
 //  Simd+.swift
 //  VRMRealityKit
 //
-//  Created by Tatsuya Tanaka on 2025/01/20.
+//  Created by Tatsuya Ogawa on 2026/01/22.
 //
 
 import simd

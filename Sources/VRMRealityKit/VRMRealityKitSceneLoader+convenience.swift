@@ -2,7 +2,7 @@
 //  VRMRealityKitSceneLoader+convenience.swift
 //  VRMRealityKit
 //
-//  Created by Tatsuya Tanaka on 20180911.
+//  Created by Tatsuya Ogawa on 2026/01/22.
 //
 
 #if canImport(RealityKit)

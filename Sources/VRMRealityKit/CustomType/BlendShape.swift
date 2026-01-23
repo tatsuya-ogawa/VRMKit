@@ -2,7 +2,7 @@
 //  BlendShape.swift
 //  VRMRealityKit
 //
-//  Created by Tatsuya Tanaka on 2019/02/10.
+//  Created by Tatsuya Ogawa on 2026/01/22.
 //
 
 #if canImport(RealityKit)
