@@ -215,7 +215,7 @@ open class VRMRealityKitSceneLoader {
         var targetOffsets: [[SIMD3<Float>]] = []
         var normalOffsets: [[SIMD3<Float>]] = []
         var tangentOffsets: [[SIMD3<Float>]] = []
-        if #available(iOS 18.0, *), let targets = primitive.targets, !targets.isEmpty {
+        if let targets = primitive.targets, !targets.isEmpty {
             let hasNormalTargets = enableNormalTangentBlendShape && targets.contains { $0[.NORMAL] != nil }
             let hasTangentTargets = enableNormalTangentBlendShape && targets.contains { $0[.TANGENT] != nil }
             targetOffsets.reserveCapacity(targets.count)
@@ -329,12 +329,11 @@ open class VRMRealityKitSceneLoader {
         }
 
         let modelEntity = ModelEntity(mesh: mesh, materials: [material])
-        if #available(iOS 18.0, *), hasBlendShapes {
+        if hasBlendShapes {
             let mapping = BlendShapeWeightsMapping(meshResource: mesh)
             modelEntity.components.set(BlendShapeWeightsComponent(weightsMapping: mapping))
         }
         if enableNormalTangentBlendShape,
-           #available(iOS 18.0, *),
            !finalNormalOffsets.isEmpty || !finalTangentOffsets.isEmpty {
             let component = BlendShapeNormalTangentComponent(baseNormals: finalNormals,
                                                              baseTangents: finalTangents,
@@ -1230,7 +1229,7 @@ open class VRMRealityKitSceneLoader {
             part.textureCoordinates = MeshBuffer(texcoords)
         }
         part.triangleIndices = MeshBuffer(indices)
-        if #available(iOS 18.0, *), !blendShapeOffsets.isEmpty {
+        if !blendShapeOffsets.isEmpty {
             for (targetIndex, offsets) in blendShapeOffsets.enumerated() {
                 let name = "blendShape_\(targetIndex)"
                 part.setBlendShapeOffsets(named: name, buffer: MeshBuffer(offsets))

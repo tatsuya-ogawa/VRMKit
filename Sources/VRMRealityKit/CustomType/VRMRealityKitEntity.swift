@@ -175,7 +175,7 @@ public final class VRMRealityKitEntity {
             let weight = Float(binding.weight / 100.0) * Float(normalized)
             applyBlendShapeWeight(weight, targetIndex: binding.index, on: binding.mesh)
         }
-        if enableNormalTangentBlendShape, #available(iOS 18.0, *) {
+        if enableNormalTangentBlendShape {
             var meshesToUpdate: [Entity] = []
             var seenMeshes = Set<ObjectIdentifier>()
             for binding in clip.values {
@@ -209,7 +209,6 @@ public final class VRMRealityKitEntity {
     }
 
     private func applyBlendShapeWeight(_ weight: Float, targetIndex: Int, on mesh: Entity) {
-        guard #available(iOS 18.0, *) else { return }
         let targetName = "blendShape_\(targetIndex)"
         let models = modelEntities(in: mesh)
         for modelEntity in models {
@@ -347,7 +346,6 @@ public final class VRMRealityKitEntity {
     }
 
     private func readBlendShapeWeight(targetIndex: Int, on mesh: Entity) -> Float {
-        guard #available(iOS 18.0, *) else { return 0 }
         let targetName = "blendShape_\(targetIndex)"
         for modelEntity in modelEntities(in: mesh) {
             let weights = modelEntity.blendWeights
