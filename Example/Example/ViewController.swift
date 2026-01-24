@@ -48,8 +48,8 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: @MainActor SCNSceneRendererDelegate {
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+extension ViewController: SCNSceneRendererDelegate {
+    nonisolated func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         (renderer.scene as! VRMScene).vrmNode.update(at: time)
     }
 }
