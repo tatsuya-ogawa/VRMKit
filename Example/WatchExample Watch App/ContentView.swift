@@ -5,11 +5,23 @@ struct ContentView: View {
     @StateObject private var viewModel = ViewModel()
 
     var body: some View {
-        SceneView(
-            scene: viewModel.scene,
-            delegate: viewModel.renderer
-        )
-        .ignoresSafeArea()
+        TabView {
+            SceneView(
+                scene: viewModel.scene,
+                delegate: viewModel.renderer
+            )
+            .ignoresSafeArea()
+            
+            VStack {
+                Text("Select Model")
+                Picker("Model", selection: $viewModel.selectedModelName) {
+                    Text("Alicia").tag(ViewModel.ModelName.alicia)
+                    Text("VRM 1.0").tag(ViewModel.ModelName.vrm1)
+                }
+                .pickerStyle(.wheel)
+            }
+        }
+        .tabViewStyle(.page)
         .onAppear {
             viewModel.loadModelIfNeeded()
         }

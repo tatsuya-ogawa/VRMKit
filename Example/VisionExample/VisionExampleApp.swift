@@ -33,4 +33,19 @@ final class AppModel {
     enum ImmersiveSpaceState {
         case closed, inTransition, open
     }
+    enum ModelName: String, CaseIterable, Identifiable {
+        case alicia = "AliciaSolid.vrm"
+        case vrm1 = "VRM1_Constraint_Twist_Sample.vrm"
+        
+        var id: String { rawValue }
+
+        var initialRotation: Float {
+            switch self {
+            case .alicia: return .pi
+            case .vrm1: return 0
+            }
+        }
+    }
+    
+    var selectedModelName: ModelName = .alicia
 }

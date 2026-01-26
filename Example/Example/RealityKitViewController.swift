@@ -21,7 +21,8 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
         title = "RealityKit"
         view.backgroundColor = .black
         setUpARView()
-        loadVRM()
+        setUpUI()
+        loadVRM(model: .alicia)
     }
 
     private func setUpARView() {
@@ -42,11 +43,35 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
         setUpGestures()
     }
 
-    private func loadVRM() {
+    private func setUpUI() {
+        let items = VRMExampleModel.allCases.map { $0.rawValue == "AliciaSolid.vrm" ? "Alicia" : "VRM 1.0" }
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
+        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(segmentedControl)
+        
+        NSLayoutConstraint.activate([
+            segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            segmentedControl.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
+        ])
+    }
+
+    @objc private func segmentChanged(_ sender: UISegmentedControl) {
+        let model = VRMExampleModel.allCases[sender.selectedSegmentIndex]
+        loadVRM(model: model)
+    }
+
+    private func loadVRM(model: VRMExampleModel) {
         guard let arView = arView else { return }
 
+        if let loadedEntity = loadedEntity {
+            loadedEntity.entity.removeFromParent()
+            self.loadedEntity = nil
+        }
+
         do {
-            let loader = try VRMEntityLoader(named: "AliciaSolid.vrm")
+            let loader = try VRMEntityLoader(named: model.rawValue)
             let vrmEntity = try loader.loadEntity()
 
             let anchor = AnchorEntity(world: .zero)
@@ -76,6 +101,8 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
             
             loadedEntity = vrmEntity
             
+            let rotationOffset = model.initialRotation
+
             var time: TimeInterval = 0
             updateSubscription = arView.scene.subscribe(to: SceneEvents.Update.self) { [weak self] event in
                 guard let loadedEntity = self?.loadedEntity else { return }
@@ -92,7 +119,7 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
                     angle = -0.5 + 0.5 * progress
                 }
                 
-                loadedEntity.entity.transform.rotation = simd_quatf(angle: angle, axis: SIMD3<Float>(0, 1, 0))
+                loadedEntity.entity.transform.rotation = simd_quatf(angle: rotationOffset + angle, axis: SIMD3<Float>(0, 1, 0))
                 
                 loadedEntity.update(at: event.deltaTime)
             }
