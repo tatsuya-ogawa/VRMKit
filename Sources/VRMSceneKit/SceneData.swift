@@ -1,6 +1,5 @@
 import VRMKit
 import SceneKit
-import UIKit
 
 @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 final class SceneData {
@@ -20,7 +19,7 @@ final class SceneData {
     var buffers: [Data?] = []
     var materials: [SCNMaterial?] = []
     var textures: [SCNMaterialProperty?] = []
-    var images: [UIImage?] = []
+    var images: [VRMImage?] = []
 
     init(vrm: GLTF) {
         scenes = Array(repeating: nil, count: vrm.scenes?.count ?? 0)

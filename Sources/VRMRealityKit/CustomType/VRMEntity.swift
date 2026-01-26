@@ -4,7 +4,7 @@ import Foundation
 import RealityKit
 import VRMKit
 
-@available(iOS 18.0, visionOS 2.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 struct BlendShapeNormalTangentComponent: Component {
     let baseNormals: [SIMD3<Float>]
     let baseTangents: [SIMD3<Float>]
@@ -12,7 +12,7 @@ struct BlendShapeNormalTangentComponent: Component {
     let tangentOffsets: [[SIMD3<Float>]]
 }
 
-@available(iOS 18.0, visionOS 2.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @MainActor
 public final class VRMEntity {
     public let vrm: VRM

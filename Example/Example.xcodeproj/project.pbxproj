@@ -3,34 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		067C5C502AAD6D8B00F8FBB3 /* VRMKit in Frameworks */ = {isa = PBXBuildFile; productRef = 067C5C4F2AAD6D8B00F8FBB3 /* VRMKit */; };
 		067C5C522AAD6D8B00F8FBB3 /* VRMSceneKit in Frameworks */ = {isa = PBXBuildFile; productRef = 067C5C512AAD6D8B00F8FBB3 /* VRMSceneKit */; };
-		067C5C542AAD6EC600F8FBB3 /* AliciaSolid.vrm in Resources */ = {isa = PBXBuildFile; fileRef = 067C5C532AAD6EC600F8FBB3 /* AliciaSolid.vrm */; };
-		06F0BD6F2AAD81A30089488C /* WatchExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0BD6E2AAD81A30089488C /* WatchExampleApp.swift */; };
-		06F0BD712AAD81A30089488C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0BD702AAD81A30089488C /* ContentView.swift */; };
-		06F0BD732AAD81A40089488C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06F0BD722AAD81A40089488C /* Assets.xcassets */; };
-		06F0BD762AAD81A40089488C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06F0BD752AAD81A40089488C /* Preview Assets.xcassets */; };
+		06E1164E2F277C6D00D74CA4 /* VRMKit in Frameworks */ = {isa = PBXBuildFile; productRef = 06E1164D2F277C6D00D74CA4 /* VRMKit */; };
+		06E116502F277C6D00D74CA4 /* VRMRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = 06E1164F2F277C6D00D74CA4 /* VRMRealityKit */; };
+		06E116522F277D1800D74CA4 /* AliciaSolid.vrm in Resources */ = {isa = PBXBuildFile; fileRef = 06E116512F277D1700D74CA4 /* AliciaSolid.vrm */; };
+		06E116542F277ED600D74CA4 /* AliciaSolid.vrm in Resources */ = {isa = PBXBuildFile; fileRef = 06E116512F277D1700D74CA4 /* AliciaSolid.vrm */; };
 		06F0BD792AAD81A40089488C /* WatchExample Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 06F0BD6C2AAD81A30089488C /* WatchExample Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		06F0BD7F2AAD82120089488C /* VRMKit in Frameworks */ = {isa = PBXBuildFile; productRef = 06F0BD7E2AAD82120089488C /* VRMKit */; };
 		06F0BD812AAD82120089488C /* VRMSceneKit in Frameworks */ = {isa = PBXBuildFile; productRef = 06F0BD802AAD82120089488C /* VRMSceneKit */; };
-		06F0BD822AAD82B00089488C /* AliciaSolid.vrm in Resources */ = {isa = PBXBuildFile; fileRef = 067C5C532AAD6EC600F8FBB3 /* AliciaSolid.vrm */; };
-		06F0BD842AAD844E0089488C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06F0BD832AAD844E0089488C /* ViewModel.swift */; };
-		1B423339CB4398DB1A1246C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 106B96E642DBB9E30F9DD516 /* ContentView.swift */; };
-		245725DA2146F47A003AA5D7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245725D92146F47A003AA5D7 /* AppDelegate.swift */; };
-		245725DC2146F47A003AA5D7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245725DB2146F47A003AA5D7 /* ViewController.swift */; };
-		245725DF2146F47B003AA5D7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 245725DD2146F47B003AA5D7 /* Main.storyboard */; };
-		245725E12146F47D003AA5D7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 245725E02146F47D003AA5D7 /* Assets.xcassets */; };
-		245725E42146F47D003AA5D7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 245725E22146F47D003AA5D7 /* LaunchScreen.storyboard */; };
-		5ACAEDF06A6852157A0FD1DD /* AliciaSolid.vrm in Resources */ = {isa = PBXBuildFile; fileRef = 067C5C532AAD6EC600F8FBB3 /* AliciaSolid.vrm */; };
-		7C9EB6F05F7B753F98495120 /* VisionExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86727144B64AA685EA51BB27 /* VisionExampleApp.swift */; };
 		9FD10CB0B1951449373631D5 /* VRMRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D4E5F60718293A4B5F /* VRMRealityKit */; };
-		A1B2C3D4E5F60718293A4B5E /* RealityKitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5D /* RealityKitViewController.swift */; };
 		A1B2C3D4E5F60718293A4B60 /* VRMRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D4E5F60718293A4B5F /* VRMRealityKit */; };
-		ADAF54A7F114E350A780F385 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 245725E02146F47D003AA5D7 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,28 +56,54 @@
 
 /* Begin PBXFileReference section */
 		067C5C4E2AAD6D7700F8FBB3 /* VRMKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = VRMKit; path = ..; sourceTree = "<group>"; };
-		067C5C532AAD6EC600F8FBB3 /* AliciaSolid.vrm */ = {isa = PBXFileReference; lastKnownFileType = file; name = AliciaSolid.vrm; path = ../../Tests/VRMKitTests/Assets/AliciaSolid.vrm; sourceTree = "<group>"; };
+		06E116422F277AEA00D74CA4 /* MacExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		06E116512F277D1700D74CA4 /* AliciaSolid.vrm */ = {isa = PBXFileReference; lastKnownFileType = file; name = AliciaSolid.vrm; path = ../../Tests/VRMKitTests/Assets/AliciaSolid.vrm; sourceTree = "<group>"; };
 		06F0BD6C2AAD81A30089488C /* WatchExample Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WatchExample Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		06F0BD6E2AAD81A30089488C /* WatchExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchExampleApp.swift; sourceTree = "<group>"; };
-		06F0BD702AAD81A30089488C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		06F0BD722AAD81A40089488C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		06F0BD752AAD81A40089488C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		06F0BD832AAD844E0089488C /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
-		095C85C32F237B7E009F5C68 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		106B96E642DBB9E30F9DD516 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		245725D72146F47A003AA5D7 /* VRMExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VRMExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		245725D92146F47A003AA5D7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		245725DB2146F47A003AA5D7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		245725DE2146F47B003AA5D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		245725E02146F47D003AA5D7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		245725E32146F47D003AA5D7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		245725E52146F47D003AA5D7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		86727144B64AA685EA51BB27 /* VisionExampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionExampleApp.swift; sourceTree = "<group>"; };
 		96FABF60E748F3EF7D574461 /* VisionExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1B2C3D4E5F60718293A4B5D /* RealityKitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealityKitViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		06E116312F2779E600D74CA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C38173B2D7ECD71253A5A17E /* VisionExample */;
+		};
+		06E116672F277EDD00D74CA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 245725D62146F47A003AA5D7 /* VRMExample */;
+		};
+		06E116682F277EDD00D74CA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = C38173B2D7ECD71253A5A17E /* VisionExample */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		06E1162D2F2779E600D74CA4 /* VisionExample */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (06E116312F2779E600D74CA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = VisionExample; sourceTree = "<group>"; };
+		06E116382F2779F600D74CA4 /* WatchExample Watch App */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "WatchExample Watch App"; sourceTree = "<group>"; };
+		06E116432F277AEA00D74CA4 /* MacExample */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = MacExample; sourceTree = "<group>"; };
+		06E1165E2F277EDD00D74CA4 /* Example */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (06E116672F277EDD00D74CA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 06E116682F277EDD00D74CA4 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Example; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
+		06E1163F2F277AEA00D74CA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06E116502F277C6D00D74CA4 /* VRMRealityKit in Frameworks */,
+				06E1164E2F277C6D00D74CA4 /* VRMKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06F0BD692AAD81A30089488C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -129,24 +142,12 @@
 			name = Packages;
 			sourceTree = "<group>";
 		};
-		06F0BD6D2AAD81A30089488C /* WatchExample Watch App */ = {
+		06E116532F277D3100D74CA4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				06F0BD6E2AAD81A30089488C /* WatchExampleApp.swift */,
-				06F0BD702AAD81A30089488C /* ContentView.swift */,
-				06F0BD832AAD844E0089488C /* ViewModel.swift */,
-				06F0BD722AAD81A40089488C /* Assets.xcassets */,
-				06F0BD742AAD81A40089488C /* Preview Content */,
+				06E116512F277D1700D74CA4 /* AliciaSolid.vrm */,
 			);
-			path = "WatchExample Watch App";
-			sourceTree = "<group>";
-		};
-		06F0BD742AAD81A40089488C /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				06F0BD752AAD81A40089488C /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
+			path = Models;
 			sourceTree = "<group>";
 		};
 		245725AD2146F09C003AA5D7 /* Frameworks */ = {
@@ -156,38 +157,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		245725D82146F47A003AA5D7 /* Example */ = {
-			isa = PBXGroup;
-			children = (
-				067C5C532AAD6EC600F8FBB3 /* AliciaSolid.vrm */,
-				245725D92146F47A003AA5D7 /* AppDelegate.swift */,
-				245725DB2146F47A003AA5D7 /* ViewController.swift */,
-				A1B2C3D4E5F60718293A4B5D /* RealityKitViewController.swift */,
-				245725DD2146F47B003AA5D7 /* Main.storyboard */,
-				245725E02146F47D003AA5D7 /* Assets.xcassets */,
-				245725E22146F47D003AA5D7 /* LaunchScreen.storyboard */,
-				245725E52146F47D003AA5D7 /* Info.plist */,
-			);
-			path = Example;
-			sourceTree = "<group>";
-		};
-		2489AE1BFDA34EA65E5F09BA /* VisionExample */ = {
-			isa = PBXGroup;
-			children = (
-				095C85C32F237B7E009F5C68 /* Info.plist */,
-				86727144B64AA685EA51BB27 /* VisionExampleApp.swift */,
-				106B96E642DBB9E30F9DD516 /* ContentView.swift */,
-			);
-			path = VisionExample;
-			sourceTree = "<group>";
-		};
 		24CF7F712143EEDB007A5C6C = {
 			isa = PBXGroup;
 			children = (
 				067C5C4D2AAD6D7700F8FBB3 /* Packages */,
-				245725D82146F47A003AA5D7 /* Example */,
-				2489AE1BFDA34EA65E5F09BA /* VisionExample */,
-				06F0BD6D2AAD81A30089488C /* WatchExample Watch App */,
+				06E1165E2F277EDD00D74CA4 /* Example */,
+				06E1162D2F2779E600D74CA4 /* VisionExample */,
+				06E116382F2779F600D74CA4 /* WatchExample Watch App */,
+				06E116432F277AEA00D74CA4 /* MacExample */,
+				06E116532F277D3100D74CA4 /* Models */,
 				24CF7F7C2143EEDB007A5C6C /* Products */,
 				245725AD2146F09C003AA5D7 /* Frameworks */,
 			);
@@ -199,6 +177,7 @@
 				245725D72146F47A003AA5D7 /* VRMExample.app */,
 				06F0BD6C2AAD81A30089488C /* WatchExample Watch App.app */,
 				96FABF60E748F3EF7D574461 /* VisionExample.app */,
+				06E116422F277AEA00D74CA4 /* MacExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,6 +185,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		06E116412F277AEA00D74CA4 /* MacExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 06E1164A2F277AEB00D74CA4 /* Build configuration list for PBXNativeTarget "MacExample" */;
+			buildPhases = (
+				06E1163E2F277AEA00D74CA4 /* Sources */,
+				06E1163F2F277AEA00D74CA4 /* Frameworks */,
+				06E116402F277AEA00D74CA4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				06E116432F277AEA00D74CA4 /* MacExample */,
+			);
+			name = MacExample;
+			packageProductDependencies = (
+				06E1164D2F277C6D00D74CA4 /* VRMKit */,
+				06E1164F2F277C6D00D74CA4 /* VRMRealityKit */,
+			);
+			productName = MacExample;
+			productReference = 06E116422F277AEA00D74CA4 /* MacExample.app */;
+			productType = "com.apple.product-type.application";
+		};
 		06F0BD6B2AAD81A30089488C /* WatchExample Watch App */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 06F0BD7D2AAD81A40089488C /* Build configuration list for PBXNativeTarget "WatchExample Watch App" */;
@@ -217,6 +220,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				06E116382F2779F600D74CA4 /* WatchExample Watch App */,
 			);
 			name = "WatchExample Watch App";
 			packageProductDependencies = (
@@ -242,6 +248,9 @@
 			dependencies = (
 				06F0BD782AAD81A40089488C /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				06E1165E2F277EDD00D74CA4 /* Example */,
+			);
 			name = VRMExample;
 			packageProductDependencies = (
 				067C5C4F2AAD6D8B00F8FBB3 /* VRMKit */,
@@ -264,6 +273,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				06E1162D2F2779E600D74CA4 /* VisionExample */,
+			);
 			name = VisionExample;
 			packageProductDependencies = (
 				A1B2C3D4E5F60718293A4B5F /* VRMRealityKit */,
@@ -279,10 +291,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastSwiftUpdateCheck = 1430;
+				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 				ORGANIZATIONNAME = tattn;
 				TargetAttributes = {
+					06E116412F277AEA00D74CA4 = {
+						CreatedOnToolsVersion = 26.2;
+					};
 					06F0BD6B2AAD81A30089488C = {
 						CreatedOnToolsVersion = 14.3.1;
 					};
@@ -314,18 +329,24 @@
 				245725D62146F47A003AA5D7 /* VRMExample */,
 				06F0BD6B2AAD81A30089488C /* WatchExample Watch App */,
 				C38173B2D7ECD71253A5A17E /* VisionExample */,
+				06E116412F277AEA00D74CA4 /* MacExample */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		06E116402F277AEA00D74CA4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				06E116522F277D1800D74CA4 /* AliciaSolid.vrm in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06F0BD6A2AAD81A30089488C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06F0BD762AAD81A40089488C /* Preview Assets.xcassets in Resources */,
-				06F0BD822AAD82B00089488C /* AliciaSolid.vrm in Resources */,
-				06F0BD732AAD81A40089488C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,10 +354,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				067C5C542AAD6EC600F8FBB3 /* AliciaSolid.vrm in Resources */,
-				245725E42146F47D003AA5D7 /* LaunchScreen.storyboard in Resources */,
-				245725E12146F47D003AA5D7 /* Assets.xcassets in Resources */,
-				245725DF2146F47B003AA5D7 /* Main.storyboard in Resources */,
+				06E116542F277ED600D74CA4 /* AliciaSolid.vrm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,21 +362,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADAF54A7F114E350A780F385 /* Assets.xcassets in Resources */,
-				5ACAEDF06A6852157A0FD1DD /* AliciaSolid.vrm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		06E1163E2F277AEA00D74CA4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		06F0BD682AAD81A30089488C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06F0BD712AAD81A30089488C /* ContentView.swift in Sources */,
-				06F0BD842AAD844E0089488C /* ViewModel.swift in Sources */,
-				06F0BD6F2AAD81A30089488C /* WatchExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,9 +386,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				245725DC2146F47A003AA5D7 /* ViewController.swift in Sources */,
-				A1B2C3D4E5F60718293A4B5E /* RealityKitViewController.swift in Sources */,
-				245725DA2146F47A003AA5D7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,8 +393,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B423339CB4398DB1A1246C9 /* ContentView.swift in Sources */,
-				7C9EB6F05F7B753F98495120 /* VisionExampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,33 +406,90 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		245725DD2146F47B003AA5D7 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				245725DE2146F47B003AA5D7 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		245725E22146F47D003AA5D7 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				245725E32146F47D003AA5D7 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
+		06E1164B2F277AEB00D74CA4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 tattn. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.tattn.VRMExample.MacExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		06E1164C2F277AEB00D74CA4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 tattn. All rights reserved.";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.tattn.VRMExample.MacExample;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 		06F0BD7B2AAD81A40089488C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchExample Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -448,7 +520,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"WatchExample Watch App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
@@ -476,7 +548,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -484,6 +560,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.tattn.VRMExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -492,7 +571,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				INFOPLIST_FILE = Example/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -500,6 +583,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.tattn.VRMExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -560,6 +646,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -624,6 +711,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -691,6 +779,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		06E1164A2F277AEB00D74CA4 /* Build configuration list for PBXNativeTarget "MacExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				06E1164B2F277AEB00D74CA4 /* Debug */,
+				06E1164C2F277AEB00D74CA4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		06F0BD7D2AAD81A40089488C /* Build configuration list for PBXNativeTarget "WatchExample Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -746,6 +843,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A1B2C3D4E5F60718293A4B61 /* XCLocalSwiftPackageReference ".." */;
 			productName = VRMSceneKit;
+		};
+		06E1164D2F277C6D00D74CA4 /* VRMKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VRMKit;
+		};
+		06E1164F2F277C6D00D74CA4 /* VRMRealityKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = VRMRealityKit;
 		};
 		06F0BD7E2AAD82120089488C /* VRMKit */ = {
 			isa = XCSwiftPackageProductDependency;

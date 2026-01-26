@@ -2,7 +2,7 @@
 import RealityKit
 import VRMKit
 
-@available(iOS 18.0, visionOS 2.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @MainActor
 final class VRMEntitySpringBoneColliderGroup {
     let node: Entity

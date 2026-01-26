@@ -39,7 +39,7 @@ open class VRMSceneLoader {
         return scnScene
     }
 
-    public func loadThumbnail() throws -> UIImage? {
+    public func loadThumbnail() throws -> VRMImage? {
         guard let textureIndex = vrm.meta.texture else { return nil }
         if let cache = try sceneData.load(\.images, index: textureIndex) { return cache }
         return try image(withImageIndex: textureIndex)
@@ -146,10 +146,10 @@ open class VRMSceneLoader {
         return texture
     }
 
-    func image(withImageIndex index: Int) throws -> UIImage {
+    func image(withImageIndex index: Int) throws -> VRMImage {
         if let cache = try sceneData.load(\.images, index: index) { return cache }
         let gltfImage = try gltf.load(\.images, keyName: "images")[index]
-        let image = try UIImage(image: gltfImage, relativeTo: rootDirectory, loader: self)
+        let image = try VRMImage.from(gltfImage, relativeTo: rootDirectory, loader: self)
         sceneData.images[index] = image
         return image
     }

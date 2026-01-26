@@ -1,8 +1,8 @@
 import Combine
 import UIKit
 import RealityKit
-import VRMKit
-import VRMRealityKit
+internal import VRMKit
+internal import VRMRealityKit
 
 @available(iOS 18.0, *)
 final class RealityKitViewController: UIViewController, UIGestureRecognizerDelegate {

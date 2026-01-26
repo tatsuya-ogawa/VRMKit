@@ -1,7 +1,6 @@
 import Foundation
 import VRMKit
 import SceneKit
-import UIKit
 
 @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 open class VRM1SceneLoader {
@@ -17,7 +16,7 @@ open class VRM1SceneLoader {
         self.sceneData = SceneData(vrm: gltf)
     }
     
-    public func loadThumbnail() throws -> UIImage? {
+    public func loadThumbnail() throws -> VRMImage? {
         guard let imageIndex = vrm1.meta.thumbnailImage else {
             return nil
         }
@@ -29,7 +28,7 @@ open class VRM1SceneLoader {
         return try image(withImageIndex: imageIndex)
     }
     
-    func image(withImageIndex index: Int) throws -> UIImage {
+    func image(withImageIndex index: Int) throws -> VRMImage {
         if let cache = try sceneData.load(\.images, index: index) {
             return cache
         }
@@ -43,7 +42,7 @@ open class VRM1SceneLoader {
             throw VRMError.dataInconsistent("Image index \(index) is out of bounds for \(gltfImages.count) images.")
         }
         
-        let image = try UIImage(image: gltfImage, relativeTo: rootDirectory, loader: self)
+        let image = try VRMImage.from(gltfImage, relativeTo: rootDirectory, loader: self)
         sceneData.images[index] = image
         return image
     }

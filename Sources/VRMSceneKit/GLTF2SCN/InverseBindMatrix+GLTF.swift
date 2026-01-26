@@ -25,7 +25,6 @@ extension Array where Element == InverseBindMatrix {
                 let rawPtr = UnsafeRawPointer(ptr)
                 let values = (0..<componentsPerVector)
                     .map { rawPtr.load(fromByteOffset: $0*bytesPerComponent, as: Float.self) }
-//                    .map { SCNFloat($0) }
                 matrices.append(InverseBindMatrix(scnMatrix4: try SCNMatrix4(values)))
                 ptr = ptr.advanced(by: stride)
             }

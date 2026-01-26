@@ -1,8 +1,9 @@
 import UIKit
 import SceneKit
-import VRMKit
-import VRMSceneKit
+internal import VRMKit
+internal import VRMSceneKit
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 class ViewController: UIViewController {
 
     @IBOutlet private weak var scnView: SCNView! {
@@ -48,6 +49,7 @@ class ViewController: UIViewController {
     }
 }
 
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 extension ViewController: SCNSceneRendererDelegate {
     nonisolated func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         (renderer.scene as! VRMScene).vrmNode.update(at: time)

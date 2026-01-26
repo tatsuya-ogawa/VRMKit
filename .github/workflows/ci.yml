@@ -24,6 +24,9 @@ jobs:
           - platform: iOS
             sim_platform: iOS Simulator
             device_name: iPhone
+          - platform: macOS
+            sim_platform: macOS
+            device_name: My Mac
           - platform: watchOS
             sim_platform: watchOS Simulator
             device_name: Watch
@@ -35,7 +38,11 @@ jobs:
       - name: Test VRMKit
         run: |
           set -o pipefail
-          make test-package-platform \
-            SIM_PLATFORM="${{ matrix.sim_platform }}" \
-            RUNTIME_PLATFORM="${{ matrix.platform }}" \
-            DEVICE_NAME="${{ matrix.device_name }}" | xcbeautify
+          if [ "${{ matrix.platform }}" = "macOS" ]; then
+            swift test | xcbeautify
+          else
+            make test-package-platform \
+              SIM_PLATFORM="${{ matrix.sim_platform }}" \
+              RUNTIME_PLATFORM="${{ matrix.platform }}" \
+              DEVICE_NAME="${{ matrix.device_name }}" | xcbeautify
+          fi

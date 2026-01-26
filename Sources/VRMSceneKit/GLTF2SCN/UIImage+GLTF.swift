@@ -1,9 +1,9 @@
+import Foundation
 import VRMKit
-import UIKit
 
 @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
-extension UIImage {
-    convenience init(image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRMSceneLoader) throws {
+extension VRMImage {
+    static func from(_ image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRMSceneLoader) throws -> VRMImage {
         let data: Data
         if let uri = image.uri {
             data = try Data(gltfUrlString: uri, relativeTo: rootDirectory)
@@ -12,10 +12,14 @@ extension UIImage {
         } else {
             throw VRMError._dataInconsistent("failed to load images")
         }
-        self.init(cgImage: try UIImage(data: data)?.cgImage ??? ._dataInconsistent("failed to load image"))
+
+        guard let image = VRMImage(data: data) else {
+            throw VRMError._dataInconsistent("failed to create image from data")
+        }
+        return image
     }
-    
-    convenience init(image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRM1SceneLoader) throws {
+
+    static func from(_ image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRM1SceneLoader) throws -> VRMImage {
         let data: Data
         if let uri = image.uri {
             data = try Data(gltfUrlString: uri, relativeTo: rootDirectory)
@@ -24,6 +28,10 @@ extension UIImage {
         } else {
             throw VRMError._dataInconsistent("failed to load images")
         }
-        self.init(cgImage: try UIImage(data: data)?.cgImage ??? ._dataInconsistent("failed to load image"))
+
+        guard let image = VRMImage(data: data) else {
+            throw VRMError._dataInconsistent("failed to create image from data")
+        }
+        return image
     }
 }

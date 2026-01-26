@@ -1,11 +1,10 @@
 #if canImport(RealityKit)
-import Foundation
+import CoreGraphics
 import RealityKit
 import Metal
 import VRMKit
-import UIKit
 
-@available(iOS 18.0, visionOS 2.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @MainActor
 open class VRMEntityLoader {
     let vrm: VRM
@@ -54,7 +53,7 @@ open class VRMEntityLoader {
         return vrmEntity
     }
 
-    public func loadThumbnail() throws -> UIImage? {
+    public func loadThumbnail() throws -> VRMImage? {
         guard let textureIndex = vrm.meta.texture else { return nil }
         if let cache = try entityData.load(\.images, index: textureIndex) { return cache }
         return try image(withImageIndex: textureIndex)
@@ -421,7 +420,7 @@ open class VRMEntityLoader {
             return gltfMaterial.alphaMode
         }()
 
-        let tint: UIColor = {
+        let tint: VRMColor = {
             guard let pbr = gltfMaterial.pbrMetallicRoughness else {
                 return .white
             }
@@ -430,7 +429,7 @@ open class VRMEntityLoader {
             if !hasExplicitFactor {
                 return .white
             }
-            return UIColor(red: CGFloat(factor.r),
+            return VRMColor(red: CGFloat(factor.r),
                            green: CGFloat(factor.g),
                            blue: CGFloat(factor.b),
                            alpha: CGFloat(factor.a))
@@ -485,7 +484,7 @@ open class VRMEntityLoader {
         }
 
         let emissiveFactor = gltfMaterial.emissiveFactor
-        let emissiveTint = UIColor(red: CGFloat(emissiveFactor.r),
+        let emissiveTint = VRMColor(red: CGFloat(emissiveFactor.r),
                                    green: CGFloat(emissiveFactor.g),
                                    blue: CGFloat(emissiveFactor.b),
                                    alpha: 1)
@@ -604,10 +603,10 @@ open class VRMEntityLoader {
         }
     }
 
-    func image(withImageIndex index: Int) throws -> UIImage {
+    func image(withImageIndex index: Int) throws -> VRMImage {
         if let cache = try entityData.load(\.images, index: index) { return cache }
         let gltfImage = try gltf.load(\.images, keyName: "images")[index]
-        let image = try UIImage(image: gltfImage, relativeTo: rootDirectory, loader: self)
+        let image = try VRMImage.from(gltfImage, relativeTo: rootDirectory, loader: self)
         entityData.images[index] = image
         return image
     }
@@ -645,7 +644,7 @@ open class VRMEntityLoader {
                 MaterialParameters.Texture(resources.rough, sampler: sampler))
     }
 
-    private func createMetallicRoughnessTextures(from uiImage: UIImage) throws -> (metal: TextureResource, rough: TextureResource) {
+    private func createMetallicRoughnessTextures(from uiImage: VRMImage) throws -> (metal: TextureResource, rough: TextureResource) {
         guard let image = uiImage.cgImage else {
             throw VRMError._dataInconsistent("failed to load cgImage")
         }
