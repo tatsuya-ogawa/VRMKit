@@ -6,6 +6,7 @@ public enum VRMError: Error {
     case notSupportedChunkType(UInt32)
     case keyNotFound(String)
     case dataInconsistent(String)
+    case thumbnailNotFound
 }
 
 package extension VRMError {

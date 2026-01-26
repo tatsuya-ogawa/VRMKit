@@ -39,12 +39,16 @@ open class VRMLoader {
     }
 
     open func loadThumbnail(from vrm: VRM) throws -> VRMImage {
-        let textureIndex = try vrm.meta.texture ??? .keyNotFound("texture")
+        guard let textureIndex = vrm.meta.texture, textureIndex >= 0 else {
+            throw VRMError.thumbnailNotFound
+        }
         return try loadImage(from: vrm.gltf, at: textureIndex)
     }
 
     open func loadThumbnail(from vrm1: VRM1) throws -> VRMImage {
-        let imageIndex = try vrm1.meta.thumbnailImage ??? .keyNotFound("thumbnailImage")
+        guard let imageIndex = vrm1.meta.thumbnailImage, imageIndex >= 0 else {
+            throw VRMError.thumbnailNotFound
+        }
         return try loadImage(from: vrm1.gltf, at: imageIndex)
     }
 

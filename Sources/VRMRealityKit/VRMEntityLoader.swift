@@ -53,8 +53,10 @@ open class VRMEntityLoader {
         return vrmEntity
     }
 
-    public func loadThumbnail() throws -> VRMImage? {
-        guard let textureIndex = vrm.meta.texture else { return nil }
+    public func loadThumbnail() throws -> VRMImage {
+        guard let textureIndex = vrm.meta.texture, textureIndex >= 0 else {
+            throw VRMError.thumbnailNotFound
+        }
         if let cache = try entityData.load(\.images, index: textureIndex) { return cache }
         return try image(withImageIndex: textureIndex)
     }

@@ -16,9 +16,9 @@ open class VRM1SceneLoader {
         self.sceneData = SceneData(vrm: gltf)
     }
     
-    public func loadThumbnail() throws -> VRMImage? {
-        guard let imageIndex = vrm1.meta.thumbnailImage else {
-            return nil
+    public func loadThumbnail() throws -> VRMImage {
+        guard let imageIndex = vrm1.meta.thumbnailImage, imageIndex >= 0 else {
+            throw VRMError.thumbnailNotFound
         }
         
         if let cache = try sceneData.load(\.images, index: imageIndex) {
