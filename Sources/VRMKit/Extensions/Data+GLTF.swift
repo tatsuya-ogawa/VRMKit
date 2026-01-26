@@ -1,22 +1,23 @@
-import VRMKit
 import Foundation
 
-extension Data {
-    init(buffer: GLTF.Buffer, relativeTo rootDirectory: URL?, vrm: VRM) throws {
+package extension Data {
+    init(buffer: GLTF.Buffer, relativeTo rootDirectory: URL?, binaryBuffer: Data?) throws {
         if let uri = buffer.uri {
             self = try Data(gltfUrlString: uri, relativeTo: rootDirectory)
-        } else if let data = vrm.gltf.binaryBuffer {
+        } else if let data = binaryBuffer {
             self = data
         } else {
             throw VRMError._dataInconsistent("failed to load buffers")
         }
 
-        guard count >= buffer.byteLength else { throw VRMError._dataInconsistent("out of length \(count) >= \(buffer.byteLength)") }
+        guard count >= buffer.byteLength else {
+            throw VRMError._dataInconsistent("out of length \(count) >= \(buffer.byteLength)")
+        }
     }
 
     init(gltfUrlString: String, relativeTo rootDirectory: URL?) throws {
         if let base64Str = gltfUrlString.retrievedBase64EncodedString() {
-            self = try Data(base64Encoded: base64Str) ??? ._dataInconsistent("failed to load base64 data")
+            self = try Data(base64Encoded: base64Str) ??? .dataInconsistent("failed to load base64 data")
         } else {
             let url = URL(fileURLWithPath: gltfUrlString, relativeTo: rootDirectory)
             self = try Data(contentsOf: url)
