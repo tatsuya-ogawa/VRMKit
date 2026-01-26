@@ -24,7 +24,7 @@ open class VRMSceneLoader {
 
     public func loadScene(withSceneIndex index: Int) throws -> VRMScene {
         if let cache = try sceneData.load(\.scenes, index: index) { return cache }
-        let gltfScene = try gltf.load(\.scenes, keyName: "scenes")[index]
+        let gltfScene = try gltf.load(\.scenes)[index]
         
         let vrmNode = VRMNode(vrm: vrm)
         for node in gltfScene.nodes ?? [] {
@@ -47,8 +47,8 @@ open class VRMSceneLoader {
 
     func node(withNodeIndex index: Int) throws -> SCNNode {
         if let cache = try sceneData.load(\.nodes, index: index) { return cache }
-        let gltfNode = try gltf.load(\.nodes, keyName: "nodes")[index]
-        let gltfSkins = try? gltf.load(\.skins, keyName: "skins")
+        let gltfNode = try gltf.load(\.nodes)[index]
+        let gltfSkins = try? gltf.load(\.skins)
         let scnNode = try SCNNode(node: gltfNode, skins: gltfSkins, loader: self)
         sceneData.nodes[index] = scnNode
         return scnNode
@@ -56,7 +56,7 @@ open class VRMSceneLoader {
 
     func camera(withCameraIndex index: Int) throws -> SCNCamera {
         if let cache = try sceneData.load(\.cameras, index: index) { return cache }
-        let gltfCamera = try gltf.load(\.cameras, keyName: "cameras")[index]
+        let gltfCamera = try gltf.load(\.cameras)[index]
         let camera = try SCNCamera(camera: gltfCamera)
         sceneData.cameras[index] = camera
         return camera
@@ -64,7 +64,7 @@ open class VRMSceneLoader {
 
     func mesh(withMeshIndex index: Int) throws -> SCNNode {
         if let cache = try sceneData.load(\.meshes, index: index) { return cache }
-        let gltfMesh = try gltf.load(\.meshes, keyName: "meshes")[index]
+        let gltfMesh = try gltf.load(\.meshes)[index]
         let mesh = try SCNNode(mesh: gltfMesh, loader: self)
         sceneData.meshes[index] = mesh
         return mesh
@@ -74,7 +74,7 @@ open class VRMSceneLoader {
         return try attributes.compactMap { attribute, index in
             guard attribute != .COLOR_0 else { return nil } // FIXME
             if let cache = try sceneData.load(\.accessors, index: index) as? SCNGeometrySource { return cache }
-            let gltfAccessor = try gltf.load(\.accessors, keyName: "accessors")[index]
+            let gltfAccessor = try gltf.load(\.accessors)[index]
             let geometrySource = try SCNGeometrySource(accessor: gltfAccessor, semantic: semantic(of: attribute), loader: self)
             sceneData.accessors[index] = geometrySource
             return geometrySource
@@ -83,7 +83,7 @@ open class VRMSceneLoader {
 
     func indexAccessor(withAccessorIndex index: Int, mode: GLTF.Mesh.Primitive.Mode) throws -> SCNGeometryElement {
         if let cache = try sceneData.load(\.accessors, index: index) as? SCNGeometryElement { return cache }
-        let gltfAccessor = try gltf.load(\.accessors, keyName: "accessors")[index]
+        let gltfAccessor = try gltf.load(\.accessors)[index]
         let geometryElement = try SCNGeometryElement(accessor: gltfAccessor, mode: mode, loader: self)
         sceneData.accessors[index] = geometryElement
         return geometryElement
@@ -91,7 +91,7 @@ open class VRMSceneLoader {
 
     func inverseBindMatrix(withAccessorIndex index: Int) throws -> [InverseBindMatrix] {
         if let cache = try sceneData.load(\.accessors, index: index) as? [InverseBindMatrix] { return cache }
-        let gltfAccessor = try gltf.load(\.accessors, keyName: "accessors")[index]
+        let gltfAccessor = try gltf.load(\.accessors)[index]
         let ibm = try [InverseBindMatrix](accessor: gltfAccessor, loader: self)
         sceneData.accessors[index] = ibm
         return ibm
@@ -108,7 +108,7 @@ open class VRMSceneLoader {
     }
 
     func bufferView(withBufferViewIndex index: Int) throws -> (bufferView: Data, stride: Int?) {
-        let gltfBufferView = try gltf.load(\.bufferViews, keyName: "bufferViews")[index]
+        let gltfBufferView = try gltf.load(\.bufferViews)[index]
         if let cache = try sceneData.load(\.bufferViews, index: index) { return (cache, gltfBufferView.byteStride) }
         let buffer = try self.buffer(withBufferIndex: gltfBufferView.buffer)
         let bufferView = buffer.subdata(in: gltfBufferView.byteOffset..<gltfBufferView.byteOffset + gltfBufferView.byteLength)
@@ -118,7 +118,7 @@ open class VRMSceneLoader {
 
     private func buffer(withBufferIndex index: Int) throws -> Data {
         if let cache = try sceneData.load(\.buffers, index: index) { return cache }
-        let gltfBuffer = try gltf.load(\.buffers, keyName: "buffers")[index]
+        let gltfBuffer = try gltf.load(\.buffers)[index]
         let buffer = try Data(buffer: gltfBuffer, relativeTo: rootDirectory, vrm: vrm)
         sceneData.buffers[index] = buffer
         return buffer
@@ -126,7 +126,7 @@ open class VRMSceneLoader {
 
     func material(withMaterialIndex index: Int) throws -> SCNMaterial {
         if let cache = try sceneData.load(\.materials, index: index) { return cache }
-        let gltfMaterial = try gltf.load(\.materials, keyName: "materials")[index]
+        let gltfMaterial = try gltf.load(\.materials)[index]
         let material = try SCNMaterial(material: gltfMaterial, loader: self)
         sceneData.materials[index] = material
         return material
@@ -134,10 +134,10 @@ open class VRMSceneLoader {
 
     func texture(withTextureIndex index: Int) throws -> SCNMaterialProperty {
         if let cache = try sceneData.load(\.textures, index: index) { return cache }
-        let gltfTexture = try gltf.load(\.textures, keyName: "textures")[index]
+        let gltfTexture = try gltf.load(\.textures)[index]
         let texture = SCNMaterialProperty(contents: try image(withImageIndex: gltfTexture.source))
         if let sampler = gltfTexture.sampler {
-            texture.setSampler(try gltf.load(\.samplers, keyName: "samplers")[sampler])
+            texture.setSampler(try gltf.load(\.samplers)[sampler])
         } else {
             texture.wrapS = .repeat
             texture.wrapT = .repeat
@@ -148,15 +148,11 @@ open class VRMSceneLoader {
 
     func image(withImageIndex index: Int) throws -> VRMImage {
         if let cache = try sceneData.load(\.images, index: index) { return cache }
-        let gltfImage = try gltf.load(\.images, keyName: "images")[index]
+        let gltfImage = try gltf.load(\.images)[index]
         let image = try VRMImage.from(gltfImage, relativeTo: rootDirectory, loader: self)
         sceneData.images[index] = image
         return image
     }
 }
 
-private extension GLTF {
-    func load<T>(_ keyPath: KeyPath<GLTF, T?>, keyName: String) throws -> T {
-        return try self[keyPath: keyPath] ??? .keyNotFound(keyName)
-    }
-}
+

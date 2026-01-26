@@ -49,3 +49,13 @@ extension GLTF {
         case two = 2
     }
 }
+
+package extension GLTF {
+    func load<T>(_ keyPath: KeyPath<GLTF, T?>) throws -> T {
+        if #available(macOS 13.3, iOS 16.4, watchOS 9.4, *) {
+            return try self[keyPath: keyPath] ??? .keyNotFound(keyPath.debugDescription)
+        } else {
+            return try self[keyPath: keyPath] ??? .keyNotFound("\(keyPath)")
+        }
+    }
+}
