@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "VRMKit",
-    platforms: [.iOS(.v15), .watchOS(.v8), .visionOS(.v2)],
+    platforms: [.iOS(.v15), .macOS(.v12), .watchOS(.v8), .visionOS(.v2)],
     products: [
         .library(name: "VRMKit", targets: ["VRMKit"]),
         .library(name: "VRMSceneKit", targets: ["VRMSceneKit"]),
@@ -28,7 +28,7 @@ let package = Package(
         .testTarget(
             name: "VRMSceneKitTests",
             dependencies: ["VRMSceneKit"],
-            resources: [.copy("Assets/AliciaSolid.vrm"), .copy("Assets/Seed-san.vrm")]
+            resources: [.copy("../VRMKitTests/Assets/AliciaSolid.vrm"), .copy("../VRMKitTests/Assets/Seed-san.vrm")]
         ),
     ]
 )

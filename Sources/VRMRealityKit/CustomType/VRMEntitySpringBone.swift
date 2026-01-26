@@ -3,7 +3,7 @@ import RealityKit
 import VRMKit
 import Foundation
 
-@available(iOS 18.0, visionOS 2.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @MainActor
 final class VRMEntitySpringBone {
     struct SphereCollider {
@@ -128,7 +128,7 @@ final class VRMEntitySpringBone {
     }
 }
 
-@available(iOS 18.0, visionOS 2.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 extension VRMEntitySpringBone {
     @MainActor
     final class VRMEntitySpringBoneLogic {

@@ -1,7 +1,7 @@
 #if canImport(RealityKit)
+import CoreGraphics
 import RealityKit
 import VRMKit
-import UIKit
 
 func numberOfComponents(of type: GLTF.Accessor.`Type`) -> Int {
     switch type {
@@ -60,8 +60,8 @@ extension GLTF.Matrix {
 }
 
 extension GLTF.Color4 {
-    var uiColor: UIColor {
-        UIColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: CGFloat(a))
+    var vrmColor: VRMColor {
+        VRMColor(red: CGFloat(r), green: CGFloat(g), blue: CGFloat(b), alpha: CGFloat(a))
     }
 }
 #endif

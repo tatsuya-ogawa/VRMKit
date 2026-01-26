@@ -46,7 +46,7 @@ extension SCNMaterial {
                 try metalness.setTextureInfo(metallicTexture, loader: loader)
                 try roughness.setTextureInfo(metallicTexture, loader: loader)
 
-                let image = try metalness.contents as? UIImage ??? ._dataInconsistent("failed to load texture image")
+                let image = try metalness.contents as? VRMImage ??? ._dataInconsistent("failed to load texture image")
                 let (metalTexture, roughTexture) = try createMetallicRoughnessTexture(from: image)
                 metalness.contents = metalTexture
                 roughness.contents = roughTexture
@@ -70,7 +70,7 @@ extension SCNMaterial {
         }
     }
 
-    private func createMetallicRoughnessTexture(from uiImage: UIImage) throws -> (metal: UIImage, rough: UIImage) {
+    private func createMetallicRoughnessTexture(from uiImage: VRMImage) throws -> (metal: VRMImage, rough: VRMImage) {
         let image = try uiImage.cgImage ??? ._dataInconsistent("failed to get cgImage")
 
         // https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md#pbrmetallicroughnessmetallicroughnesstexture
@@ -119,23 +119,22 @@ extension SCNMaterial {
 
     private func createGraySpaceImage(width: Int,
                                       height: Int,
-                                      dataPointer: UnsafeMutablePointer<UInt8>) throws -> UIImage {
+                                      dataPointer: UnsafeMutablePointer<UInt8>) throws -> VRMImage {
         let data = try CFDataCreate(nil, dataPointer, width * height) ??? ._dataInconsistent("failed to create CFDataCreate")
         let provider = try CGDataProvider(data: data) ??? ._dataInconsistent("failed to create CGDataProvider")
-        return UIImage(cgImage:
-            try CGImage(
-                width: width,
-                height: height,
-                bitsPerComponent: 8,
-                bitsPerPixel: 8,
-                bytesPerRow: width * 1,
-                space: CGColorSpaceCreateDeviceGray(),
-                bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue),
-                provider: provider,
-                decode: nil,
-                shouldInterpolate: false,
-                intent: .defaultIntent) ??? ._dataInconsistent("failed to create CGImage")
-        )
+        let cgImage = try CGImage(
+            width: width,
+            height: height,
+            bitsPerComponent: 8,
+            bitsPerPixel: 8,
+            bytesPerRow: width * 1,
+            space: CGColorSpaceCreateDeviceGray(),
+            bitmapInfo: CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue),
+            provider: provider,
+            decode: nil,
+            shouldInterpolate: false,
+            intent: .defaultIntent) ??? ._dataInconsistent("failed to create CGImage")
+        return VRMImage(cgImage: cgImage)
     }
 
     private func blendMode(of alphaMode: GLTF.Material.AlphaMode) -> SCNBlendMode {

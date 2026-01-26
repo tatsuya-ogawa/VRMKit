@@ -1,11 +1,11 @@
 #if canImport(RealityKit)
+import Foundation
 import VRMKit
-import UIKit
 
-@available(iOS 18.0, visionOS 2.0, *)
-extension UIImage {
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
+extension VRMImage {
     @MainActor
-    convenience init(image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRMEntityLoader) throws {
+    static func from(_ image: GLTF.Image, relativeTo rootDirectory: URL?, loader: VRMEntityLoader) throws -> VRMImage {
         let data: Data
         if let uri = image.uri {
             data = try Data(gltfUrlString: uri, relativeTo: rootDirectory)
@@ -14,10 +14,11 @@ extension UIImage {
         } else {
             throw VRMError._dataInconsistent("failed to load image: both uri and bufferView are nil")
         }
-        guard let uiImage = UIImage(data: data), let cgImage = uiImage.cgImage else {
-            throw VRMError._dataInconsistent("failed to create UIImage from data")
+        guard let image = VRMImage(data: data) else {
+            throw VRMError._dataInconsistent("failed to create image from data")
         }
-        self.init(cgImage: cgImage)
+
+        return image
     }
 }
 #endif

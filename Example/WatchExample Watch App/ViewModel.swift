@@ -1,13 +1,15 @@
 import Foundation
-import VRMSceneKit
+internal import VRMSceneKit
 import SceneKit
 
+@available(*, deprecated, message: "Deprecated. But watchOS can't use RealityKit...")
 final class Renderer: NSObject, SCNSceneRendererDelegate {
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         (renderer.scene as! VRMScene).vrmNode.update(at: time)
     }
 }
 
+@available(*, deprecated, message: "Deprecated. But watchOS can't use RealityKit...")
 final class ViewModel: ObservableObject {
     @Published private(set) var scene: VRMScene?
     let renderer = Renderer()

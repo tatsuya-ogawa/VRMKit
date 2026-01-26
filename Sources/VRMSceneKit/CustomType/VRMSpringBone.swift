@@ -136,7 +136,7 @@ final class VRMSpringBone {
                     base: baseNode,
                     center: self.center,
                     radius: self.hitRadius,
-                    color: UIColor.yellow,
+                    color: .yellow,
                     gizmoNodeName: gizmoNodeName
                 )
             }
@@ -216,14 +216,14 @@ extension VRMSpringBone {
             return nextTail
         }
         
-        func drawGizmo(base: SCNNode, center: SCNNode?, radius: simd_float1, color: UIColor, gizmoNodeName: String) {
+        func drawGizmo(base: SCNNode, center: SCNNode?, radius: simd_float1, color: VRMColor, gizmoNodeName: String) {
             let currentTail = center?.utx.transformPoint(self.currentTail) ?? self.currentTail
             let prevTail = center?.utx.transformPoint(self.prevTail) ?? self.prevTail
 
             let prevGizmoGeometry = SCNSphere(radius: CGFloat(radius))
             let prevGizmoNode = SCNNode(geometry: prevGizmoGeometry)
             prevGizmoNode.name = gizmoNodeName
-            prevGizmoNode.geometry?.firstMaterial?.diffuse.contents = UIColor.gray
+            prevGizmoNode.geometry?.firstMaterial?.diffuse.contents = VRMColor.gray
             base.addChildNode(prevGizmoNode)
             prevGizmoNode.simdWorldPosition = prevTail
             

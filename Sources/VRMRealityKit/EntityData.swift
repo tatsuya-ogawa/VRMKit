@@ -1,12 +1,11 @@
 #if canImport(RealityKit)
 import RealityKit
 import VRMKit
-import UIKit
 #if !os(watchOS)
 import QuartzCore
 #endif
 
-@available(iOS 18.0, visionOS 2.0, *)
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 final class EntityData {
     var entities: [VRMEntity?]
     var cameras: [Entity?]
@@ -24,7 +23,7 @@ final class EntityData {
     var buffers: [Data?] = []
     var materials: [Material?] = []
     var textures: [TextureResource?] = []
-    var images: [UIImage?] = []
+    var images: [VRMImage?] = []
 
     init(vrm: GLTF) {
         entities = Array(repeating: nil, count: vrm.scenes?.count ?? 0)

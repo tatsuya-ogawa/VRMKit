@@ -30,8 +30,9 @@ For "VRM", please refer to [this page](https://dwango.github.io/en/vrm/).
 
 # Requirements
 
-- Swift 5.9+
+- Swift 6.0+
 - iOS 15.0+
+- macOS 12.0+
 - visionOS 2.0+
 - watchOS 8.0+ (Experimental)
 
