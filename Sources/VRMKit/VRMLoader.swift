@@ -37,4 +37,27 @@ open class VRMLoader {
     open func load<T: VRMFile>(_ type: T.Type = T.self, withData data: Data) throws -> T {
         return try T(data: data)
     }
+
+    open func loadThumbnail(from vrm: VRM) throws -> VRMImage {
+        let textureIndex = try vrm.meta.texture ??? .keyNotFound("texture")
+        return try loadImage(from: vrm.gltf, at: textureIndex)
+    }
+
+    open func loadThumbnail(from vrm1: VRM1) throws -> VRMImage {
+        let imageIndex = try vrm1.meta.thumbnailImage ??? .keyNotFound("thumbnailImage")
+        return try loadImage(from: vrm1.gltf, at: imageIndex)
+    }
+
+    private func loadImage(from gltf: BinaryGLTF, at index: Int, relativeTo rootDirectory: URL? = nil) throws -> VRMImage {
+        let gltfImage = try gltf.jsonData.load(\.images)[index]
+        let imageData: Data
+        if let uri = gltfImage.uri {
+            imageData = try Data(gltfUrlString: uri, relativeTo: rootDirectory)
+        } else if let bufferViewIndex = gltfImage.bufferView {
+            imageData = try gltf.bufferViewData(at: bufferViewIndex).data
+        } else {
+            throw VRMError._dataInconsistent("Image has neither uri nor bufferView")
+        }
+        return try VRMImage(data: imageData) ??? ._dataInconsistent("Failed to create image from data")
+    }
 }

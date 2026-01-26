@@ -108,20 +108,13 @@ open class VRMSceneLoader {
     }
 
     func bufferView(withBufferViewIndex index: Int) throws -> (bufferView: Data, stride: Int?) {
-        let gltfBufferView = try gltf.load(\.bufferViews)[index]
-        if let cache = try sceneData.load(\.bufferViews, index: index) { return (cache, gltfBufferView.byteStride) }
-        let buffer = try self.buffer(withBufferIndex: gltfBufferView.buffer)
-        let bufferView = buffer.subdata(in: gltfBufferView.byteOffset..<gltfBufferView.byteOffset + gltfBufferView.byteLength)
-        sceneData.bufferViews[index] = bufferView
-        return (bufferView, gltfBufferView.byteStride)
-    }
-
-    private func buffer(withBufferIndex index: Int) throws -> Data {
-        if let cache = try sceneData.load(\.buffers, index: index) { return cache }
-        let gltfBuffer = try gltf.load(\.buffers)[index]
-        let buffer = try Data(buffer: gltfBuffer, relativeTo: rootDirectory, vrm: vrm)
-        sceneData.buffers[index] = buffer
-        return buffer
+        if let cache = try sceneData.load(\.bufferViews, index: index) {
+            let gltfBufferView = try gltf.load(\.bufferViews)[index]
+            return (cache, gltfBufferView.byteStride)
+        }
+        let result = try vrm.gltf.bufferViewData(at: index, relativeTo: rootDirectory)
+        sceneData.bufferViews[index] = result.data
+        return (result.data, result.stride)
     }
 
     func material(withMaterialIndex index: Int) throws -> SCNMaterial {

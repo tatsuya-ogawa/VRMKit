@@ -515,7 +515,7 @@ open class VRMEntityLoader {
         }
         let gltfTexture = try gltf.load(\.textures)[index]
         let image = try image(withImageIndex: gltfTexture.source)
-        guard let cgImage = image.cgImage else { throw VRMError._dataInconsistent("failed to load cgImage") }
+        let cgImage = try image.cgImage ??? .dataInconsistent("failed to load cgImage")
         let texture = try TextureResource(image: cgImage, options: .init(semantic: semantic))
         if semantic == .color {
             entityData.textures[index] = texture
@@ -612,20 +612,13 @@ open class VRMEntityLoader {
     }
 
     func bufferView(withBufferViewIndex index: Int) throws -> (bufferView: Data, stride: Int?) {
-        let gltfBufferView = try gltf.load(\.bufferViews)[index]
-        if let cache = try entityData.load(\.bufferViews, index: index) { return (cache, gltfBufferView.byteStride) }
-        let buffer = try self.buffer(withBufferIndex: gltfBufferView.buffer)
-        let bufferView = buffer.subdata(in: gltfBufferView.byteOffset..<gltfBufferView.byteOffset + gltfBufferView.byteLength)
-        entityData.bufferViews[index] = bufferView
-        return (bufferView, gltfBufferView.byteStride)
-    }
-
-    private func buffer(withBufferIndex index: Int) throws -> Data {
-        if let cache = try entityData.load(\.buffers, index: index) { return cache }
-        let gltfBuffer = try gltf.load(\.buffers)[index]
-        let buffer = try Data(buffer: gltfBuffer, relativeTo: rootDirectory, vrm: vrm)
-        entityData.buffers[index] = buffer
-        return buffer
+        if let cache = try entityData.load(\.bufferViews, index: index) {
+            let gltfBufferView = try gltf.load(\.bufferViews)[index]
+            return (cache, gltfBufferView.byteStride)
+        }
+        let result = try vrm.gltf.bufferViewData(at: index, relativeTo: rootDirectory)
+        entityData.bufferViews[index] = result.data
+        return (result.data, result.stride)
     }
 
     private func metallicRoughnessTextures(withTextureIndex index: Int) throws -> (metal: MaterialParameters.Texture, rough: MaterialParameters.Texture) {
@@ -1356,6 +1349,5 @@ open class VRMEntityLoader {
                                     indexData: indexData)
     }
 }
-
 
 #endif

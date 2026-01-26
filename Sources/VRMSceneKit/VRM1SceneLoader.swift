@@ -48,51 +48,13 @@ open class VRM1SceneLoader {
     }
 
     func bufferView(withBufferViewIndex index: Int) throws -> (bufferView: Data, stride: Int?) {
-        guard let gltfBufferViews = gltf.bufferViews else {
-            throw VRMError.keyNotFound("bufferViews")
-        }
-        
-        guard index >= 0 && index < gltfBufferViews.count,
-              let gltfBufferView = gltfBufferViews[safe: index] else {
-            throw VRMError.dataInconsistent("BufferView index \(index) is out of bounds for \(gltfBufferViews.count) bufferViews.")
-        }
-        
         if let cache = try sceneData.load(\.bufferViews, index: index) {
+            let gltfBufferView = try gltf.load(\.bufferViews)[index]
             return (cache, gltfBufferView.byteStride)
         }
-        
-        let buffer = try self.buffer(withBufferIndex: gltfBufferView.buffer)
-        let bufferData = buffer.subdata(in: gltfBufferView.byteOffset..<(gltfBufferView.byteOffset + gltfBufferView.byteLength))
-        
-        sceneData.bufferViews[index] = bufferData
-        return (bufferData, gltfBufferView.byteStride)
-    }
-    
-    private func buffer(withBufferIndex index: Int) throws -> Data {
-        if let cache = try sceneData.load(\.buffers, index: index) {
-            return cache
-        }
-        
-        guard let gltfBuffers = gltf.buffers else {
-            throw VRMError.keyNotFound("buffers")
-        }
-        
-        guard index >= 0 && index < gltfBuffers.count,
-              let gltfBuffer = gltfBuffers[safe: index] else {
-            throw VRMError.dataInconsistent("Buffer index \(index) is out of bounds for \(gltfBuffers.count) buffers.")
-        }
-        
-        let data: Data
-        if let uri = gltfBuffer.uri {
-            data = try Data(gltfUrlString: uri, relativeTo: rootDirectory)
-        } else if let binaryBuffer = vrm1.gltf.binaryBuffer {
-            data = binaryBuffer
-        } else {
-            throw VRMError._dataInconsistent("failed to load buffers")
-        }
-        
-        sceneData.buffers[index] = data
-        return data
+        let result = try vrm1.gltf.bufferViewData(at: index, relativeTo: rootDirectory)
+        sceneData.bufferViews[index] = result.data
+        return (result.data, result.stride)
     }
 }
 

@@ -158,8 +158,9 @@ vrmEntity.humanoid.node(for: .rightShoulder)?.transform.rotation *= shoulderRota
 ### Read the thumbnail image
 
 ```swift
-let loader = try VRMEntityLoader(named: "model.vrm")
-let image = try loader.loadThumbnail()
+let loader = VRMLoader()
+let vrm = try loader.load(named: "model.vrm")
+let image = try loader.loadThumbnail(from: vrm)
 ```
 
 # ToDo
