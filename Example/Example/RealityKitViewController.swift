@@ -44,7 +44,7 @@ final class RealityKitViewController: UIViewController, UIGestureRecognizerDeleg
     }
 
     private func setUpUI() {
-        let items = VRMExampleModel.allCases.map { $0.rawValue == "AliciaSolid.vrm" ? "Alicia" : "VRM 1.0" }
+        let items = VRMExampleModel.allCases.map { $0.displayName }
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         segmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)

@@ -10,6 +10,13 @@ enum VRMExampleModel: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    var displayName: String {
+        switch self {
+        case .alicia: return "Alicia"
+        case .vrm1: return "VRM 1.0"
+        }
+    }
+
     var initialRotation: Float {
         switch self {
         case .alicia: return 0
@@ -36,7 +43,7 @@ class ViewController: UIViewController {
     }
 
     private func setupUI() {
-        let items = VRMExampleModel.allCases.map { $0.rawValue == "AliciaSolid.vrm" ? "Alicia" : "VRM 1.0" }
+        let items = VRMExampleModel.allCases.map { $0.displayName }
         // Simplification: We could map names better, but sticking to existing UI labels
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
