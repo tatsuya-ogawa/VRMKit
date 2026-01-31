@@ -15,8 +15,9 @@ struct ContentView: View {
             VStack {
                 Text("Select Model")
                 Picker("Model", selection: $viewModel.selectedModelName) {
-                    Text("Alicia").tag(ViewModel.ModelName.alicia)
-                    Text("VRM 1.0").tag(ViewModel.ModelName.vrm1)
+                    ForEach(ViewModel.ModelName.allCases) { model in
+                        Text(model.displayName).tag(model)
+                    }
                 }
                 .pickerStyle(.wheel)
             }
