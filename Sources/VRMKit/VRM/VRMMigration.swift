@@ -219,25 +219,12 @@ public extension VRM.SecondaryAnimation {
         }
         
         // Convert Springs (BoneGroups)
+        // Convert Springs (BoneGroups)
         var boneGroups: [BoneGroup] = []
         if let springs = sb.springs {
             for spring in springs {
-                // VRM 1.0 Spring joints -> VRM 0.x bones
-                // VRM 1.0: joints: [{node, stiffness, ...}, ...]
-                // VRM 0.x: bones: [Int] (indices of root bones)
-                // VRM 0.x assumes uniform physics parameters for the group.
-                // VRM 1.0 has per-joint parameters.
-                // Migration: Take average or first joint's parameters?
-                
-                guard let firstJoint = spring.joints.first else { continue }
-                
-                let bones = spring.joints.map { $0.node }
-                
-                // Map VRM 1.0 colliderGroups (indices) to OUR generated vrm0ColliderGroups (indices)?
-                // This is hard. VRM 1.0 spring refers to VRM 1.0 collider groups.
-                // VRM 0.x spring refers to VRM 0.x collider groups (which we just synthesized by Node).
-                // If we want exact collision logic, we need to find which nodes are involved in the VRM 1.0 collider groups referenced by this spring.
-                
+                // Determine `colliderGroups` valid for this Spring.
+                // These are shared for all split groups derived from this Spring.
                 var referencedNodeIndices: Set<Int> = []
                 if let groupIndices = spring.colliderGroups, let vrm1Groups = sb.colliderGroups {
                      for groupIdx in groupIndices {
@@ -258,17 +245,69 @@ public extension VRM.SecondaryAnimation {
                     return referencedNodeIndices.contains(group.node) ? index : nil
                 }
                 
-                boneGroups.append(BoneGroup(
-                    bones: bones,
-                    center: spring.center ?? -1,
-                    colliderGroups: vrm0ColliderGroupIndices,
-                    comment: spring.name,
-                    dragForce: firstJoint.dragForce ?? 0.5,
-                    gravityDir: VRM.Vector3(x: firstJoint.gravityDir?[0] ?? 0, y: firstJoint.gravityDir?[1] ?? -1, z: firstJoint.gravityDir?[2] ?? 0),
-                    gravityPower: firstJoint.gravityPower ?? 0,
-                    hitRadius: firstJoint.hitRadius ?? 0.02,
-                    stiffiness: firstJoint.stiffness ?? 1.0
-                ))
+                // VRM 1.0 joints can have varying parameters.
+                // We split them into multiple VRM 0.x BoneGroups if parameters change.
+                
+                struct PhysicsParams: Equatable {
+                    let dragForce: Double
+                    let gravityDir: [Double]
+                    let gravityPower: Double
+                    let hitRadius: Double
+                    let stiffness: Double
+                }
+
+                var currentJoints: [Int] = []
+                var currentParams: PhysicsParams?
+                
+                for joint in spring.joints {
+                    let params = PhysicsParams(
+                        dragForce: joint.dragForce ?? 0.5,
+                        gravityDir: joint.gravityDir ?? [0, -1, 0],
+                        gravityPower: joint.gravityPower ?? 0,
+                        hitRadius: joint.hitRadius ?? 0.02,
+                        stiffness: joint.stiffness ?? 1.0
+                    )
+                    
+                    if let current = currentParams, current == params {
+                        // Same parameters, add to current group.
+                        currentJoints.append(joint.node)
+                    } else {
+                        // Parameters changed or first joint.
+                        if let current = currentParams, !currentJoints.isEmpty {
+                            // Close previous group
+                            boneGroups.append(BoneGroup(
+                                bones: currentJoints,
+                                center: spring.center ?? -1,
+                                colliderGroups: vrm0ColliderGroupIndices,
+                                comment: spring.name,
+                                dragForce: current.dragForce,
+                                gravityDir: VRM.Vector3(x: current.gravityDir[0], y: current.gravityDir[1], z: current.gravityDir[2]),
+                                gravityPower: current.gravityPower,
+                                hitRadius: current.hitRadius,
+                                stiffiness: current.stiffness
+                            ))
+                        }
+                        
+                        // Start new group
+                        currentParams = params
+                        currentJoints = [joint.node]
+                    }
+                }
+                
+                // Close the last group
+                if let current = currentParams, !currentJoints.isEmpty {
+                    boneGroups.append(BoneGroup(
+                        bones: currentJoints,
+                        center: spring.center ?? -1,
+                        colliderGroups: vrm0ColliderGroupIndices,
+                        comment: spring.name,
+                        dragForce: current.dragForce,
+                        gravityDir: VRM.Vector3(x: current.gravityDir[0], y: current.gravityDir[1], z: current.gravityDir[2]),
+                        gravityPower: current.gravityPower,
+                        hitRadius: current.hitRadius,
+                        stiffiness: current.stiffness
+                    ))
+                }
             }
         }
         
