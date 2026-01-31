@@ -34,7 +34,7 @@ public struct VRM: VRMFile {
             humanoid = Humanoid(vrm1: vrm1.humanoid)
             
             // BlendShapeMaster
-            blendShapeMaster = BlendShapeMaster(vrm1: vrm1.expressions)
+            blendShapeMaster = BlendShapeMaster(vrm1: vrm1.expressions, gltf: gltf)
             
             // FirstPerson
             firstPerson = FirstPerson(vrm1: vrm1.firstPerson, lookAt: vrm1.lookAt)

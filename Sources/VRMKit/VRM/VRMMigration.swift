@@ -73,7 +73,7 @@ public extension VRM.Humanoid {
 }
 
 public extension VRM.BlendShapeMaster {
-    init(vrm1: VRM1.Expressions?) {
+    init(vrm1: VRM1.Expressions?, gltf: BinaryGLTF) {
         guard let expressions = vrm1 else {
             self.init(blendShapeGroups: [])
             return
@@ -86,19 +86,17 @@ public extension VRM.BlendShapeMaster {
                 VRM.BlendShapeMaster.BlendShapeGroup.Bind(index: $0.index, mesh: $0.node, weight: $0.weight)
             }
             
-            let materialValues = expression.materialColorBinds?.map {
-                VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind(materialName: "", // We need material NAME, but VRM1 bind has material INDEX.
-                                  // This is a problem. Material migration needs access to GLTF to resolve names.
-                                  // For now, we arguably can't populate this correctly without looking up GLTF.
-                                  // We will leave it empty or try to resolve later/outside?
-                                  // `MaterialValueBind` expects `materialName`.
-                                  // We can map it if we have access to GLTF.
-                                  // But this init extension only sees `vrm1`.
-                                  propertyName: $0.type.rawValue,
-                                  targetValue: $0.targetValue)
+            let materialValues = expression.materialColorBinds?.compactMap { bind -> VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind? in
+                guard let materials = gltf.jsonData.materials, bind.material < materials.count else { return nil }
+                // VRM1 bind refers to material by index. Resolve the name from GLTF.
+                let materialName = materials[bind.material].name ?? ""
+                
+               return VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind(
+                  materialName: materialName,
+                  propertyName: bind.type.rawValue,
+                  targetValue: bind.targetValue
+               )
             }
-            // Wait, standard `init` for structs implies we can't easily access external context unless passed.
-            // We should change the call site to `try VRM.migrateBlendShapes(vrm1: vrm1, gltf: gltf)`.
             
             groups.append(BlendShapeGroup(
                 binds: binds,
