@@ -82,21 +82,36 @@ public extension VRM.BlendShapeMaster {
         var groups: [BlendShapeGroup] = []
         
         func addGroup(name: String, presetName: String, expression: VRM1.Expressions.Expression) {
-            let binds = expression.morphTargetBinds?.map {
-                VRM.BlendShapeMaster.BlendShapeGroup.Bind(index: $0.index, mesh: $0.node, weight: $0.weight)
-            }
+            let binds: [VRM.BlendShapeMaster.BlendShapeGroup.Bind] = (expression.morphTargetBinds?.compactMap { (bind) -> VRM.BlendShapeMaster.BlendShapeGroup.Bind? in
+                let meshIndex: Int?
+                if let nodes = gltf.jsonData.nodes,
+                   nodes.indices.contains(bind.node) {
+                    meshIndex = nodes[bind.node].mesh
+                } else if let meshes = gltf.jsonData.meshes,
+                          meshes.indices.contains(bind.node) {
+                    // Fallback: treat bind.node as a mesh index if nodes are unavailable.
+                    meshIndex = bind.node
+                } else {
+                    meshIndex = nil
+                }
+                guard let meshIndex else { return nil }
+                return VRM.BlendShapeMaster.BlendShapeGroup.Bind(
+                    index: bind.index,
+                    mesh: meshIndex,
+                    weight: bind.weight * 100.0
+                )
+            }) ?? []
             
-            let materialValues = expression.materialColorBinds?.compactMap { bind -> VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind? in
+            let materialValues: [VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind] = (expression.materialColorBinds?.compactMap { bind -> VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind? in
                 guard let materials = gltf.jsonData.materials, bind.material < materials.count else { return nil }
                 // VRM1 bind refers to material by index. Resolve the name from GLTF.
                 let materialName = materials[bind.material].name ?? ""
-                
-               return VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind(
-                  materialName: materialName,
-                  propertyName: bind.type.rawValue,
-                  targetValue: bind.targetValue
-               )
-            }
+                return VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind(
+                    materialName: materialName,
+                    propertyName: bind.type.rawValue,
+                    targetValue: bind.targetValue
+                )
+            }) ?? []
             
             groups.append(BlendShapeGroup(
                 binds: binds,
@@ -536,3 +551,4 @@ public extension VRM {
         return properties
     }
 }
+
