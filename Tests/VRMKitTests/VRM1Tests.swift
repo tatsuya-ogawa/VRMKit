@@ -1183,4 +1183,83 @@ class VRM1Tests: XCTestCase {
         XCTAssertEqual(vrm.gltf.jsonData.nodes?[35].extensions?.nodeConstraint?.constraint.rotation?.weight, 1)
         XCTAssertEqual(vrm.gltf.jsonData.nodes?[35].extensions?.nodeConstraint?.specVersion, "1.0")
     }
+
+    func testMigrationToLegacyVRM() {
+        let vrm0 = try! VRM(data: Resources.seedSan.data)
+        
+        // Meta
+        XCTAssertEqual(vrm0.meta.title, "Seed-san")
+        XCTAssertEqual(vrm0.meta.author, "VirtualCast, Inc.")
+        XCTAssertEqual(vrm0.meta.version, "1")
+        XCTAssertEqual(vrm0.meta.texture, 14)
+        XCTAssertEqual(vrm0.meta.allowedUserName, "Everyone")
+        XCTAssertEqual(vrm0.meta.violentUssageName, "Allow")
+        XCTAssertEqual(vrm0.meta.sexualUssageName, "Allow")
+        XCTAssertEqual(vrm0.meta.commercialUssageName, "corporation")
+        XCTAssertEqual(vrm0.meta.licenseName, "https://vrm.dev/licenses/1.0/")
+        
+        // Humanoid
+        XCTAssertEqual(vrm0.humanoid.humanBones.count, 51)
+        XCTAssertEqual(vrm0.humanoid.humanBones.first(where: { $0.bone == "hips" })?.node, 3)
+        XCTAssertEqual(vrm0.humanoid.humanBones.first(where: { $0.bone == "head" })?.node, 45)
+        
+        // BlendShapeMaster
+        // VRM1 has 5 presets (happy, angry, sad, relaxed, surprised) + 5 vowels + blink + look + neutral = many
+        // Migration mapping based on VRMMigration.swift:
+        // Happy -> joy
+        // Angry -> angry
+        // Sad -> sorrow
+        // Relaxed -> fun
+        // Surprised -> unknown
+        
+        XCTAssertEqual(vrm0.blendShapeMaster.blendShapeGroups.count, 18)
+        
+        XCTAssertEqual(vrm0.blendShapeMaster.blendShapeGroups.first(where: { $0.name == "Happy" })?.presetName, "joy")
+        XCTAssertEqual(vrm0.blendShapeMaster.blendShapeGroups.first(where: { $0.name == "Angry" })?.presetName, "angry")
+        XCTAssertEqual(vrm0.blendShapeMaster.blendShapeGroups.first(where: { $0.name == "Sad" })?.presetName, "sorrow")
+        XCTAssertEqual(vrm0.blendShapeMaster.blendShapeGroups.first(where: { $0.name == "Relaxed" })?.presetName, "fun")
+        XCTAssertEqual(vrm0.blendShapeMaster.blendShapeGroups.first(where: { $0.name == "Surprised" })?.presetName, "unknown")
+        
+        // FirstPerson
+        XCTAssertEqual(vrm0.firstPerson.meshAnnotations.count, 5)
+        XCTAssertEqual(vrm0.firstPerson.firstPersonBone, -1)
+        XCTAssertEqual(vrm0.firstPerson.lookAtTypeName, .blendShape)
+        
+        // SecondaryAnimation (SpringBone)
+        // VRM1 colliders are flattened in migration to be grouped by node.
+        // Node 4: 1 collider
+        // Node 5: 3 colliders
+        // Node 130, 131, 137, 138: 1 collider each
+        // Total groups should be 6.
+        XCTAssertEqual(vrm0.secondaryAnimation.colliderGroups.count, 6)
+        
+        XCTAssertTrue(vrm0.secondaryAnimation.colliderGroups.contains(where: { $0.node == 4 && $0.colliders.count == 1 }))
+        XCTAssertTrue(vrm0.secondaryAnimation.colliderGroups.contains(where: { $0.node == 5 && $0.colliders.count == 3 }))
+        
+        // MaterialProperties (MToon)
+        XCTAssertEqual(vrm0.materialProperties.count, 17) // glTF has 17 materials based on testMaterialsMToon (indices go up to 16)
+        
+        // Material 0 (MToon)
+        let mtoon0 = vrm0.materialProperties[0]
+        XCTAssertEqual(mtoon0.shader, "VRM/MToon")
+        
+        if let floatProps = mtoon0.floatProperties.value as? [String: Double] {
+            XCTAssertEqual(floatProps["_ShadingToony"], 0.95)
+            XCTAssertEqual(floatProps["_ShadingShift"], -0.05)
+        } else {
+            XCTFail("floatProperties type mismatch")
+        }
+        
+        // _ShadeColor is vector
+        if let vectorProps = mtoon0.vectorProperties.value as? [String: [Double]] {
+            if let shadeColor = vectorProps["_ShadeColor"] {
+                XCTAssertEqual(shadeColor.count, 4)
+                XCTAssertEqual(shadeColor[0], 0.301212043, accuracy: 0.0001)
+            } else {
+                XCTFail("_ShadeColor missing")
+            }
+        } else {
+            XCTFail("vectorProperties type mismatch")
+        }
+    }
 }
