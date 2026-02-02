@@ -57,6 +57,7 @@ public extension VRM.BlendShapeMaster {
         }
         
         var groups: [BlendShapeGroup] = []
+        let decoder = DictionaryDecoder()
         
         func addGroup(name: String, presetName: String, expression: VRM1.Expressions.Expression) {
             let binds: [VRM.BlendShapeMaster.BlendShapeGroup.Bind] = (expression.morphTargetBinds?.compactMap { (bind) -> VRM.BlendShapeMaster.BlendShapeGroup.Bind? in
@@ -99,15 +100,15 @@ public extension VRM.BlendShapeMaster {
             ))
         }
         
-        // Presets
+        // VRM1 preset expressions -> VRM0 BlendShapeGroup presetName mapping.
         let preset = expressions.preset
         addGroup(name: "Happy", presetName: "joy", expression: preset.happy)
         addGroup(name: "Angry", presetName: "angry", expression: preset.angry)
         addGroup(name: "Sad", presetName: "sorrow", expression: preset.sad)
         addGroup(name: "Relaxed", presetName: "fun", expression: preset.relaxed)
-        addGroup(name: "Surprised", presetName: "unknown", expression: preset.surprised) // VRM0 doesn't have surprised in standard preset names?
+        addGroup(name: "Surprised", presetName: "unknown", expression: preset.surprised) // VRM0 doesn't have surprised
+
         // VRM0 presets: neutral, a, i, u, e, o, blink, joy, angry, sorrow, fun, lookup, lookdown, lookleft, lookright, blink_l, blink_r.
-        
         addGroup(name: "A", presetName: "a", expression: preset.aa)
         addGroup(name: "I", presetName: "i", expression: preset.ih)
         addGroup(name: "U", presetName: "u", expression: preset.ou)
@@ -116,7 +117,24 @@ public extension VRM.BlendShapeMaster {
         addGroup(name: "Blink", presetName: "blink", expression: preset.blink)
         addGroup(name: "Blink_L", presetName: "blink_l", expression: preset.blinkLeft)
         addGroup(name: "Blink_R", presetName: "blink_r", expression: preset.blinkRight)
-                
+
+        addGroup(name: "LookUp", presetName: "lookup", expression: preset.lookUp)
+        addGroup(name: "LookDown", presetName: "lookdown", expression: preset.lookDown)
+        addGroup(name: "LookLeft", presetName: "lookleft", expression: preset.lookLeft)
+        addGroup(name: "LookRight", presetName: "lookright", expression: preset.lookRight)
+        addGroup(name: "Neutral", presetName: "neutral", expression: preset.neutral)
+
+        // VRM1 custom expressions
+        if let customMap = expressions.custom?.value as? [String: Any] {
+            for name in customMap.keys.sorted() {
+                guard let raw = customMap[name] as? [String: Any],
+                      let expression = try? decoder.decode(VRM1.Expressions.Expression.self, from: raw) else {
+                    continue
+                }
+                addGroup(name: name, presetName: "unknown", expression: expression)
+            }
+        }
+
         self.init(blendShapeGroups: groups)
     }
 }
@@ -526,4 +544,3 @@ public extension VRM {
         return properties
     }
 }
-
