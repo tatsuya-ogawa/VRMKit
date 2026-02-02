@@ -48,7 +48,7 @@ public struct VRM: VRMFile {
             materialPropertyNameMap = materialProperties.reduce(into: [:]) { $0[$1.name] = $1 }
             
         } else {
-            // VRM 0.x Support (Existing logic)
+            // VRM 0.x Support
             let vrm = try extensions["VRM"] ??? .keyNotFound("VRM")
             
             meta = try decoder.decode(Meta.self, from: try vrm["meta"] ??? .keyNotFound("meta"))
