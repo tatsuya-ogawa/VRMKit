@@ -17,6 +17,20 @@ public struct BinaryGLTF {
     }
 }
 
+package extension BinaryGLTF {
+    func bufferViewData(at index: Int, relativeTo rootDirectory: URL? = nil) throws -> (data: Data, stride: Int?) {
+        let bufferView = try jsonData.load(\.bufferViews)[index]
+        let buffer = try bufferData(at: bufferView.buffer, relativeTo: rootDirectory)
+        let data = buffer.subdata(in: bufferView.byteOffset..<bufferView.byteOffset + bufferView.byteLength)
+        return (data, bufferView.byteStride)
+    }
+
+    func bufferData(at index: Int, relativeTo rootDirectory: URL? = nil) throws -> Data {
+        let gltfBuffer = try jsonData.load(\.buffers)[index]
+        return try Data(buffer: gltfBuffer, relativeTo: rootDirectory, binaryBuffer: binaryBuffer)
+    }
+}
+
 extension BinaryGLTF {
     public init(data: Data) throws {
         var offset = MemoryLayout<UInt32>.size // skip `magic`
