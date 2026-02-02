@@ -149,11 +149,9 @@ public extension VRM.FirstPerson {
         // LookAt
         let lookAtTypeName: LookAtType
         switch lookAt?.type {
-        case .bone: lookAtTypeName = .bone
-        case .expression: lookAtTypeName = .blendShape
-        case .none: lookAtTypeName = .none // VRM1 LookAtType doesn't have none? Optional?
-            // VRM1.LookAt.LookAtType enum: bone, expression.
-            // If LookAt is nil, maybe none?
+            case .bone: lookAtTypeName = .bone
+            case .expression: lookAtTypeName = .blendShape
+            case .none: lookAtTypeName = .none
         }
         
         // VRM 1.0 LookAt offsetFromHeadBone
@@ -177,21 +175,6 @@ public extension VRM.SecondaryAnimation {
             self.init(boneGroups: [], colliderGroups: [])
             return
         }
-        
-        // Convert Colliders
-        // VRM 1.0 defines a flat list of colliders properly?
-        // Wait, VRM 1.0 `springBone.colliders` is `[Collider]`.
-        // `springBone.colliderGroups` is `[ColliderGroup]`. `ColliderGroup` has `colliders: [Int]`.
-        // VRM 0.x `ColliderGroup` has `node: Int` and `colliders: [Collider]`.
-        // This is a structural mismatch.
-        // VRM 0.x assumes a ColliderGroup belongs to ONE node.
-        // VRM 1.0 ColliderGroup groups colliders (indices). Each collider has its OWN node.
-        
-        // To migrate to VRM 0.x structure:
-        // We need to group VRM 1.0 colliders by NODE.
-        // Or create a separate VRM 0.x ColliderGroup for EACH VRM 1.0 Collider?
-        // Since VRM 0.x ColliderGroup is literally "Colliders attached to Node X".
-        
         var vrm0ColliderGroups: [ColliderGroup] = []
         
         // Resolve all VRM 1.0 colliders
@@ -227,7 +210,6 @@ public extension VRM.SecondaryAnimation {
         }
         
         // Convert Springs (BoneGroups)
-        // Convert Springs (BoneGroups)
         var boneGroups: [BoneGroup] = []
         if let springs = sb.springs {
             for spring in springs {
@@ -252,9 +234,6 @@ public extension VRM.SecondaryAnimation {
                 let vrm0ColliderGroupIndices: [Int] = vrm0ColliderGroups.enumerated().compactMap { index, group in
                     return referencedNodeIndices.contains(group.node) ? index : nil
                 }
-                
-                // VRM 1.0 joints can have varying parameters.
-                // We split them into multiple VRM 0.x BoneGroups if parameters change.
                 
                 struct PhysicsParams: Equatable {
                     let dragForce: Double
@@ -325,10 +304,6 @@ public extension VRM.SecondaryAnimation {
 
 public extension VRM {
     static func migrateMaterials(gltf: BinaryGLTF, vrm1: VRM1) throws -> [MaterialProperty] {
-        // We need to parse VRMC_materials_mtoon extension from glTF definitions
-        // But VRM1 struct doesn't strictly hold MToon data in a convenient list; it's in the material extensions.
-        // We need to iterate over gltf.materials.
-        
         guard let materials = gltf.jsonData.materials else { return [] }
         
         var properties: [MaterialProperty] = []
@@ -341,7 +316,7 @@ public extension VRM {
                 
                 // Map MToon parameters to VRM 0.x MaterialProperty
                 var floatProperties: [String: Double] = [:]
-                var keywordMap: [String: Bool] = [:]
+                let keywordMap: [String: Bool] = [:]
                 var textureProperties: [String: Int] = [:]
                 var vectorProperties: [String: [Double]] = [:] // VRM0.x expects [Double] (array of 4)
                 
