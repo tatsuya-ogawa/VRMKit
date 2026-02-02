@@ -19,9 +19,6 @@ public extension VRM.Meta {
             licenseName: vrm1.licenseUrl,
             otherLicenseUrl: vrm1.otherLicenseUrl
         )
-        // Note: 'allowedUserName' mapping from `avatarPermission` needs details.
-        // VRM1: onlyAuthor, onlySeparatelyLicensedPerson, everyone.
-        // VRM0: OnlyAuthor, ExplicitlyLicensedPerson, Everyone.
     }
 }
 
@@ -34,27 +31,7 @@ public extension VRM.Humanoid {
             guard let label = child.label,
                   let humanBone1 = child.value as? VRM1.Humanoid.HumanBones.HumanBone?,
                   let node = humanBone1?.node else { continue }
-            
-            // Normalize bone names. VRM1 property names mostly match VRM0 bone names in `HumanBone.bone` string.
-            // Exceptions:
-            // VRM1 `chest` is usually `upperChest` in Unity HumanBodyBones (or VRM0 `upperChest`?), wait.
-            // VRM 0.x: spine, chest, upperChest.
-            // VRM 1.0: spine, chest, upperChest.
-            // The mapping should be direct for most.
-            // VRM1 `thumbMetacarpal` -> VRM0 `xxxThumbProximal`?
-            // User requested: "follows existing interface".
-            // So we need to map VRM1 bone structure to VRM0 `HumanBone` list.
-            
             let boneName = label
-            
-            // Map bone names if necessary
-            // Example: VRM1 'leftThumbMetacarpal' -> ?
-            // Let's assume direct mapping for now and refine if specific bones fail.
-            // The `VRM.Humanoid.HumanBone` struct expects `bone` string.
-            
-            // Note: VRM 1.0 `humanBones` struct usage in `VRM1.swift` uses property names like `leftUpperLeg`.
-            // VRM 0.x `HumanBone` expects string literals that generally match these camelCase names.
-            
             bones.append(HumanBone(bone: boneName, node: node, useDefaultValues: true))
         }
         
@@ -139,9 +116,7 @@ public extension VRM.BlendShapeMaster {
         addGroup(name: "Blink", presetName: "blink", expression: preset.blink)
         addGroup(name: "Blink_L", presetName: "blink_l", expression: preset.blinkLeft)
         addGroup(name: "Blink_R", presetName: "blink_r", expression: preset.blinkRight)
-        
-        // ... LookUps etc. (Populate basic presets if needed, but for now we assume common ones cover most usage)
-        
+                
         self.init(blendShapeGroups: groups)
     }
 }
