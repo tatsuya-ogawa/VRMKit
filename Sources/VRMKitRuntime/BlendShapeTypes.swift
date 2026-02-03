@@ -31,7 +31,7 @@ public enum BlendShapePreset: String {
     case blinkL = "blink_l"
     case blinkR = "blink_r"
 
-    package init(name: String) {
+    public init(name: String) {
         self = BlendShapePreset(rawValue: name.lowercased()) ?? .unknown
     }
 }

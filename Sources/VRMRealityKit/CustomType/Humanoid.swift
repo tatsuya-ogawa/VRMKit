@@ -1,5 +1,6 @@
 #if canImport(RealityKit)
 import VRMKit
+import VRMKitRuntime
 import RealityKit
 
 public final class Humanoid {
