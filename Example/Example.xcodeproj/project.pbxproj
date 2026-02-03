@@ -13,6 +13,7 @@
 		06E116502F277C6D00D74CA4 /* VRMRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = 06E1164F2F277C6D00D74CA4 /* VRMRealityKit */; };
 		06E116522F277D1800D74CA4 /* AliciaSolid.vrm in Resources */ = {isa = PBXBuildFile; fileRef = 06E116512F277D1700D74CA4 /* AliciaSolid.vrm */; };
 		06E116542F277ED600D74CA4 /* AliciaSolid.vrm in Resources */ = {isa = PBXBuildFile; fileRef = 06E116512F277D1700D74CA4 /* AliciaSolid.vrm */; };
+		B1E1A1B2C3D4E5F607182930 /* AliciaSolid.vrm in Resources */ = {isa = PBXBuildFile; fileRef = 06E116512F277D1700D74CA4 /* AliciaSolid.vrm */; };
 		06F0BD792AAD81A40089488C /* WatchExample Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 06F0BD6C2AAD81A30089488C /* WatchExample Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		06F0BD7F2AAD82120089488C /* VRMKit in Frameworks */ = {isa = PBXBuildFile; productRef = 06F0BD7E2AAD82120089488C /* VRMKit */; };
 		06F0BD812AAD82120089488C /* VRMSceneKit in Frameworks */ = {isa = PBXBuildFile; productRef = 06F0BD802AAD82120089488C /* VRMSceneKit */; };
@@ -20,6 +21,7 @@
 		A1B2C3D4E5F60718293A4B60 /* VRMRealityKit in Frameworks */ = {isa = PBXBuildFile; productRef = A1B2C3D4E5F60718293A4B5F /* VRMRealityKit */; };
 		AF000002AF000002AF000002 /* VRM1_Constraint_Twist_Sample.vrm in Resources */ = {isa = PBXBuildFile; fileRef = AF000001AF000001AF000001 /* VRM1_Constraint_Twist_Sample.vrm */; };
 		AF000003AF000003AF000003 /* VRM1_Constraint_Twist_Sample.vrm in Resources */ = {isa = PBXBuildFile; fileRef = AF000001AF000001AF000001 /* VRM1_Constraint_Twist_Sample.vrm */; };
+		B1E1A1B2C3D4E5F607182931 /* VRM1_Constraint_Twist_Sample.vrm in Resources */ = {isa = PBXBuildFile; fileRef = AF000001AF000001AF000001 /* VRM1_Constraint_Twist_Sample.vrm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -368,6 +370,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1E1A1B2C3D4E5F607182930 /* AliciaSolid.vrm in Resources */,
+				B1E1A1B2C3D4E5F607182931 /* VRM1_Constraint_Twist_Sample.vrm in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
