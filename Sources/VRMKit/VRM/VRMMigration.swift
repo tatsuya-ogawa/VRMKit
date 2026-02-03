@@ -89,7 +89,8 @@ public extension VRM.BlendShapeMaster {
                 )
             }) ?? []
             
-            let materialValues: [VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind] = (expression.materialColorBinds?.compactMap { bind -> VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind? in
+            // VRM1 materialColor/textureTransform -> VRM0 materialValues
+            let colorValues: [VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind] = (expression.materialColorBinds?.compactMap { bind -> VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind? in
                 guard let materials = gltf.jsonData.materials, bind.material < materials.count else { return nil }
                 // VRM1 bind refers to material by index. Resolve the name from GLTF.
                 let materialName = materials[bind.material].name ?? ""
@@ -99,6 +100,28 @@ public extension VRM.BlendShapeMaster {
                     targetValue: bind.targetValue
                 )
             }) ?? []
+
+            let textureValues: [VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind] = (expression.textureTransformBinds?.compactMap { bind -> VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind? in
+                guard let materials = gltf.jsonData.materials, bind.material < materials.count else { return nil }
+                let materialName = materials[bind.material].name ?? ""
+
+                let scale = bind.scale ?? [1.0, 1.0]
+                let offset = bind.offset ?? [0.0, 0.0]
+                let sx = scale.count > 0 ? scale[0] : 1.0
+                let sy = scale.count > 1 ? scale[1] : 1.0
+                let ox = offset.count > 0 ? offset[0] : 0.0
+                let oy = offset.count > 1 ? offset[1] : 0.0
+                // glTF(top-left) -> Unity(bottom-left)
+                let flippedOy = 1.0 - oy - sy
+
+                return VRM.BlendShapeMaster.BlendShapeGroup.MaterialValueBind(
+                    materialName: materialName,
+                    propertyName: "_MainTex_ST",
+                    targetValue: [sx, sy, ox, flippedOy]
+                )
+            }) ?? []
+
+            let materialValues = colorValues + textureValues
             
             groups.append(BlendShapeGroup(
                 binds: binds,
