@@ -9,3 +9,8 @@ typealias BlendShapeBinding = VRMKitRuntime.BlendShapeBinding<SCNNode>
 typealias BlendShapeClip = VRMKitRuntime.BlendShapeClip<SCNNode>
 @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
 typealias MaterialValueBinding = VRMKitRuntime.MaterialValueBinding
+
+// MARK: - Humanoid
+
+@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
+public typealias Humanoid = VRMKitRuntime.Humanoid<SCNNode>

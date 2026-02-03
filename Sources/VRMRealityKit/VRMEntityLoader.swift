@@ -613,7 +613,9 @@ open class VRMEntityLoader {
     func image(withImageIndex index: Int) throws -> VRMImage {
         if let cache = try entityData.load(\.images, index: index) { return cache }
         let gltfImage = try gltf.load(\.images)[index]
-        let image = try VRMImage.from(gltfImage, relativeTo: rootDirectory, loader: self)
+        let image = try VRMImage.from(gltfImage, relativeTo: rootDirectory) { index in
+            try self.bufferView(withBufferViewIndex: index).bufferView
+        }
         entityData.images[index] = image
         return image
     }

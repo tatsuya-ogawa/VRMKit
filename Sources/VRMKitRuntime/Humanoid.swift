@@ -1,23 +1,23 @@
 import VRMKit
-import SceneKit
 
-@available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
-public final class Humanoid {
-    var bones: [Bones: SCNNode] = [:]
+public final class Humanoid<Node> {
+    package var bones: [Bones: Node] = [:]
 
-    func setUp(humanoid: VRM0.Humanoid, nodes: [SCNNode?]) {
+    public init() {}
+
+    package func setUp(humanoid: VRM0.Humanoid, nodes: [Node?]) {
         bones = humanoid.humanBones.reduce(into: [:]) { result, humanBone in
-            guard let bone = Bones(rawValue: humanBone.bone),
-                let node = nodes[humanBone.node] else { return }
+            guard let bone = Bones(rawValue: humanBone.bone) else { return }
+            guard nodes.indices.contains(humanBone.node),
+                  let node = nodes[humanBone.node] else { return }
             result[bone] = node
         }
     }
 
-    public func node(for bone: Bones) -> SCNNode? {
+    public func node(for bone: Bones) -> Node? {
         return bones[bone]
     }
 
-    @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")
     public enum Bones: String {
         case hips
         case leftUpperLeg

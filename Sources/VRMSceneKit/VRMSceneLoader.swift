@@ -1,5 +1,6 @@
 import Foundation
 import VRMKit
+import VRMKitRuntime
 import SceneKit
 import SpriteKit
 
@@ -144,10 +145,10 @@ open class VRMSceneLoader {
     func image(withImageIndex index: Int) throws -> VRMImage {
         if let cache = try sceneData.load(\.images, index: index) { return cache }
         let gltfImage = try gltf.load(\.images)[index]
-        let image = try VRMImage.from(gltfImage, relativeTo: rootDirectory, loader: self)
+        let image = try VRMImage.from(gltfImage, relativeTo: rootDirectory) { index in
+            try self.bufferView(withBufferViewIndex: index).bufferView
+        }
         sceneData.images[index] = image
         return image
     }
 }
-
-

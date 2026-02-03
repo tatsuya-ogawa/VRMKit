@@ -8,4 +8,8 @@ import RealityKit
 typealias BlendShapeBinding = VRMKitRuntime.BlendShapeBinding<Entity>
 typealias BlendShapeClip = VRMKitRuntime.BlendShapeClip<Entity>
 typealias MaterialValueBinding = VRMKitRuntime.MaterialValueBinding
+
+// MARK: - Humanoid
+
+public typealias Humanoid = VRMKitRuntime.Humanoid<Entity>
 #endif
