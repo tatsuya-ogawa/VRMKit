@@ -167,10 +167,11 @@ let image = try loader.loadThumbnail(from: vrm)
 
 - [ ] VRM 1.0 support
   - [x] Decoding VRM 1.0 file
-  - [ ] Render an avatar by RealityKit
-- [ ] VRM shaders support
+  - [x] Render an avatar by RealityKit (as VRM 0.x)
+  - [ ] Render an avatar by RealityKit (as VRM 1.x)
+- [ ] VRM shaders support (MToon)
 - [ ] Improve rendering quality
-- [ ] Animation support
+- [ ] Animation support (vrma)
 - [ ] VRM editing function
 - [ ] GLTF renderer support
 
