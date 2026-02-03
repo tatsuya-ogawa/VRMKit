@@ -11,7 +11,16 @@ public extension VRM.Meta {
             reference: vrm1.references?.joined(separator: ", "),
             texture: vrm1.thumbnailImage,
             version: vrm1.version,
-            allowedUserName: "Everyone", // Simplification or mapping? VRM1 has complex permissions.
+            allowedUserName: {
+                // VRM1 avatarPermission -> VRM0 allowedUserName
+                // VRM0 expects: OnlyAuthor / ExplicitlyLicensedPerson / Everyone
+                switch vrm1.avatarPermission {
+                case .onlyAuthor: return "OnlyAuthor"
+                case .onlySeparatelyLicensedPerson: return "ExplicitlyLicensedPerson"
+                case .everyone: return "Everyone"
+                case .none: return "Everyone"
+                }
+            }(),
             violentUssageName: vrm1.allowExcessivelyViolentUsage == true ? "Allow" : "Disallow",
             sexualUssageName: vrm1.allowExcessivelySexualUsage == true ? "Allow" : "Disallow",
             commercialUssageName: vrm1.commercialUsage?.rawValue,
