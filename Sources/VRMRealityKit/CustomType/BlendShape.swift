@@ -5,6 +5,7 @@ struct BlendShapeClip {
     let name: String
     let preset: BlendShapePreset
     let values: [BlendShapeBinding]
+    let materialValues: [MaterialValueBinding]
     let isBinary: Bool
     var key: BlendShapeKey {
         return preset == .unknown ? .custom(name) : .preset(preset)
@@ -21,7 +22,6 @@ struct MaterialValueBinding {
     let materialName: String
     let valueName: String
     let targetValue: SIMD4<Float>
-    let baseValue: SIMD4<Float>
 }
 
 public enum BlendShapeKey: Hashable {

@@ -328,6 +328,15 @@ open class VRMEntityLoader {
         }
 
         let modelEntity = ModelEntity(mesh: mesh, materials: [material])
+        let materialName: String = {
+            guard let materialIndex = primitive.material,
+                  let materials = gltf.materials,
+                  materialIndex < materials.count else { return "" }
+            return materials[materialIndex].name ?? ""
+        }()
+        if !materialName.isEmpty {
+            modelEntity.components.set(MaterialNameComponent(materialNames: [materialName]))
+        }
         if hasBlendShapes {
             let mapping = BlendShapeWeightsMapping(meshResource: mesh)
             modelEntity.components.set(BlendShapeWeightsComponent(weightsMapping: mapping))

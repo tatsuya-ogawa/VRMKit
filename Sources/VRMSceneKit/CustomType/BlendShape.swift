@@ -5,7 +5,7 @@ struct BlendShapeClip {
     let name: String
     let preset: BlendShapePreset
     let values: [BlendShapeBinding]
-    //        let materialValues: [MaterialValueBinding] // TODO:
+    let materialValues: [MaterialValueBinding]
     let isBinary: Bool
     var key: BlendShapeKey {
         return preset == .unknown ? .custom(name) : .preset(preset)
@@ -24,7 +24,6 @@ struct MaterialValueBinding {
     let materialName: String
     let valueName: String
     let targetValue: SCNVector4
-    let baseValue: SCNVector4
 }
 
 @available(*, deprecated, message: "Deprecated. Use VRMRealityKit instead.")

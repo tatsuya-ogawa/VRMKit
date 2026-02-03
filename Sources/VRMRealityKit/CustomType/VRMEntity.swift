@@ -13,6 +13,11 @@ struct BlendShapeNormalTangentComponent: Component {
 }
 
 @available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
+struct MaterialNameComponent: Component {
+    let materialNames: [String]
+}
+
+@available(iOS 18.0, macOS 15.0, visionOS 2.0, *)
 @MainActor
 public final class VRMEntity {
     public let vrm: VRM
@@ -22,8 +27,15 @@ public final class VRMEntity {
     private let enableNormalTangentBlendShape = false
 
     var blendShapeClips: [BlendShapeKey: BlendShapeClip] = [:]
+    private var materialBaseValues: [MaterialValueKey: SIMD4<Float>] = [:]
     private var skinBindings: [SkinBinding] = []
     private var springBones: [VRMEntitySpringBone] = []
+
+    private struct MaterialValueKey: Hashable {
+        let entityID: ObjectIdentifier
+        let materialIndex: Int
+        let valueName: String
+    }
 
     struct SkinBinding {
         let modelEntity: ModelEntity
@@ -50,9 +62,22 @@ public final class VRMEntity {
                         }
                         return BlendShapeBinding(mesh: mesh, index: $0.index, weight: $0.weight)
                     } ?? []
+                let materialValues: [MaterialValueBinding] = group.materialValues?.map {
+                    let values = $0.targetValue
+                    let target = SIMD4<Float>(
+                        Float(values[safe: 0] ?? 0),
+                        Float(values[safe: 1] ?? 0),
+                        Float(values[safe: 2] ?? 0),
+                        Float(values[safe: 3] ?? 0)
+                    )
+                    return MaterialValueBinding(materialName: $0.materialName,
+                                                valueName: $0.propertyName,
+                                                targetValue: target)
+                } ?? []
                 return BlendShapeClip(name: group.name,
                                       preset: BlendShapePreset(name: group.presetName),
                                       values: blendShapeBinding,
+                                      materialValues: materialValues,
                                       isBinary: group.isBinary)
             }
             .reduce(into: [:]) { result, clip in
@@ -169,6 +194,7 @@ public final class VRMEntity {
             let weight = Float(binding.weight / 100.0) * Float(normalized)
             applyBlendShapeWeight(weight, targetIndex: binding.index, on: binding.mesh)
         }
+        applyMaterialValues(clip.materialValues, weight: Float(normalized))
         if enableNormalTangentBlendShape {
             var meshesToUpdate: [Entity] = []
             var seenMeshes = Set<ObjectIdentifier>()
@@ -358,6 +384,208 @@ public final class VRMEntity {
         let mapping = BlendShapeWeightsMapping(meshResource: model.mesh)
         modelEntity.components.set(BlendShapeWeightsComponent(weightsMapping: mapping))
     }
+
+    private func applyMaterialValues(_ materialValues: [MaterialValueBinding], weight: Float) {
+        for binding in materialValues {
+            applyMaterialValue(binding, weight: weight)
+        }
+    }
+
+    private func applyMaterialValue(_ binding: MaterialValueBinding, weight: Float) {
+        let lowerName = binding.valueName.lowercased()
+        let isTextureTransform = lowerName == "_maintex_st" || lowerName.hasSuffix("_st_s") || lowerName.hasSuffix("_st_t")
+
+        for modelEntity in modelEntities(in: entity) {
+            guard let nameComponent = modelEntity.components[MaterialNameComponent.self] else { continue }
+            guard let model = modelEntity.components[ModelComponent.self] else { continue }
+            var materials = model.materials
+            for index in materials.indices {
+                guard index < nameComponent.materialNames.count,
+                      nameComponent.materialNames[index] == binding.materialName else { continue }
+                if isTextureTransform {
+                    if let updated = applyTextureTransform(binding: binding,
+                                                           weight: weight,
+                                                           lowerName: lowerName,
+                                                           modelEntity: modelEntity,
+                                                           materialIndex: index,
+                                                           material: materials[index]) {
+                        materials[index] = updated
+                    }
+                } else if isColorValueName(lowerName),
+                          let updated = applyColorValue(binding: binding,
+                                                        weight: weight,
+                                                        lowerName: lowerName,
+                                                        modelEntity: modelEntity,
+                                                        materialIndex: index,
+                                                        material: materials[index]) {
+                    materials[index] = updated
+                }
+            }
+            modelEntity.model?.materials = materials
+        }
+    }
+
+    private func applyTextureTransform(binding: MaterialValueBinding,
+                                       weight: Float,
+                                       lowerName: String,
+                                       modelEntity: ModelEntity,
+                                       materialIndex: Int,
+                                       material: Material) -> Material? {
+        let base = baseTextureTransform(for: modelEntity,
+                                        materialIndex: materialIndex,
+                                        valueName: binding.valueName,
+                                        material: material)
+        let blended = blend(base: base, target: binding.targetValue, weight: weight)
+        let finalValue = applyPartialTransformIfNeeded(name: lowerName, base: base, blended: blended)
+        let transform = MaterialParameterTypes.TextureCoordinateTransform(
+            offset: SIMD2<Float>(finalValue.z, finalValue.w),
+            scale: SIMD2<Float>(finalValue.x, finalValue.y),
+            rotation: 0
+        )
+
+        if var unlit = material as? UnlitMaterial {
+            unlit.textureCoordinateTransform = transform
+            return unlit
+        }
+        if var pbr = material as? PhysicallyBasedMaterial {
+            pbr.textureCoordinateTransform = transform
+            return pbr
+        }
+        return nil
+    }
+
+    private func applyColorValue(binding: MaterialValueBinding,
+                                 weight: Float,
+                                 lowerName: String,
+                                 modelEntity: ModelEntity,
+                                 materialIndex: Int,
+                                 material: Material) -> Material? {
+        let base = baseColorValue(for: modelEntity,
+                                  materialIndex: materialIndex,
+                                  valueName: binding.valueName,
+                                  material: material,
+                                  lowerName: lowerName)
+        let blended = blend(base: base, target: binding.targetValue, weight: weight)
+        let color = VRMColor(red: CGFloat(blended.x),
+                             green: CGFloat(blended.y),
+                             blue: CGFloat(blended.z),
+                             alpha: CGFloat(blended.w))
+
+        if var unlit = material as? UnlitMaterial {
+            var baseColor = unlit.color
+            baseColor.tint = color
+            unlit.color = baseColor
+            return unlit
+        }
+        if var pbr = material as? PhysicallyBasedMaterial {
+            if lowerName.contains("emission") {
+                var emissive = pbr.emissiveColor
+                emissive.color = color
+                pbr.emissiveColor = emissive
+            } else {
+                var baseColor = pbr.baseColor
+                baseColor.tint = color
+                pbr.baseColor = baseColor
+            }
+            return pbr
+        }
+        return nil
+    }
+
+    private func isColorValueName(_ lowerName: String) -> Bool {
+        return lowerName == "color"
+            || lowerName == "_color"
+            || lowerName == "emissioncolor"
+            || lowerName == "_emissioncolor"
+    }
+
+    private func applyPartialTransformIfNeeded(name: String,
+                                               base: SIMD4<Float>,
+                                               blended: SIMD4<Float>) -> SIMD4<Float> {
+        if name.hasSuffix("_st_s") {
+            return SIMD4<Float>(blended.x, base.y, blended.z, base.w)
+        }
+        if name.hasSuffix("_st_t") {
+            return SIMD4<Float>(base.x, blended.y, base.z, blended.w)
+        }
+        return blended
+    }
+
+    private func baseTextureTransform(for modelEntity: ModelEntity,
+                                      materialIndex: Int,
+                                      valueName: String,
+                                      material: Material) -> SIMD4<Float> {
+        let key = MaterialValueKey(entityID: ObjectIdentifier(modelEntity),
+                                   materialIndex: materialIndex,
+                                   valueName: valueName)
+        if let cached = materialBaseValues[key] {
+            return cached
+        }
+        let transform: MaterialParameterTypes.TextureCoordinateTransform
+        if let unlit = material as? UnlitMaterial {
+            transform = unlit.textureCoordinateTransform
+        } else if let pbr = material as? PhysicallyBasedMaterial {
+            transform = pbr.textureCoordinateTransform
+        } else {
+            transform = MaterialParameterTypes.TextureCoordinateTransform()
+        }
+        let base = SIMD4<Float>(transform.scale.x, transform.scale.y,
+                                transform.offset.x, transform.offset.y)
+        materialBaseValues[key] = base
+        return base
+    }
+
+    private func baseColorValue(for modelEntity: ModelEntity,
+                                materialIndex: Int,
+                                valueName: String,
+                                material: Material,
+                                lowerName: String) -> SIMD4<Float> {
+        let key = MaterialValueKey(entityID: ObjectIdentifier(modelEntity),
+                                   materialIndex: materialIndex,
+                                   valueName: valueName)
+        if let cached = materialBaseValues[key] {
+            return cached
+        }
+        var baseColor = VRMColor.white
+        if let unlit = material as? UnlitMaterial {
+            baseColor = unlit.color.tint
+        } else if let pbr = material as? PhysicallyBasedMaterial {
+            baseColor = lowerName.contains("emission")
+                ? pbr.emissiveColor.color
+                : pbr.baseColor.tint
+        }
+        let vector = baseColor.toVector4()
+        materialBaseValues[key] = vector
+        return vector
+    }
+
+    private func blend(base: SIMD4<Float>, target: SIMD4<Float>, weight: Float) -> SIMD4<Float> {
+        return SIMD4<Float>(
+            base.x + (target.x - base.x) * weight,
+            base.y + (target.y - base.y) * weight,
+            base.z + (target.z - base.z) * weight,
+            base.w + (target.w - base.w) * weight
+        )
+    }
+}
+
+private extension VRMColor {
+    func toVector4() -> SIMD4<Float> {
+        #if os(macOS)
+        let rgb = usingColorSpace(.deviceRGB) ?? self
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        rgb.getRed(&r, green: &g, blue: &b, alpha: &a)
+        #else
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        #endif
+        return SIMD4<Float>(Float(r), Float(g), Float(b), Float(a))
+    }
 }
 #endif
-
