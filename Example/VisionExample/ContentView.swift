@@ -14,9 +14,8 @@ struct MainView: View {
                 .font(.largeTitle)
 
             Picker("Model", selection: $appModel.selectedModelName) {
-                ForEach(AppModel.ModelName.allCases) { model in
+                ForEach(AppModel.ModelName.allCases, id: \.self) { model in
                     Text(model.displayName).tag(model)
-                }
                 }
             }
             .pickerStyle(.segmented)
